@@ -1,0 +1,2 @@
+module Bet::TopplayersHelper
+end

@@ -1,0 +1,2 @@
+module Bet::GamesHelper
+end

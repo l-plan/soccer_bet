@@ -1,0 +1,27 @@
+<%= form_with(model: bet_topscorer) do |form| %>
+  <% if bet_topscorer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bet_topscorer.errors.count, "error") %> prohibited this bet_topscorer from being saved:</h2>
+
+      <ul>
+        <% bet_topscorer.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :participant_id %>
+    <%= form.number_field :participant_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :player_id %>
+    <%= form.number_field :player_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Participant:</strong>
+  <%= @bet_topscorer.participant_id %>
+</p>
+
+<p>
+  <strong>Player:</strong>
+  <%= @bet_topscorer.player_id %>
+</p>
+
+<%= link_to 'Edit', edit_bet_topscorer_path(@bet_topscorer) %> |
+<%= link_to 'Back', bet_topscorers_path %>

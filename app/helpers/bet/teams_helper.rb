@@ -1,0 +1,2 @@
+module Bet::TeamsHelper
+end
