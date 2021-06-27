@@ -9,7 +9,7 @@ class Game < ApplicationRecord
 
 
 	def teams
-		Bet::Team.where(stage: stage, team_id: [home.id, away.id])
+		Bet::Team.where(stage: stage, team_id: [home&.id, away&.id])
 	end
 
 	def calculate
@@ -113,7 +113,8 @@ class Game < ApplicationRecord
 
 	def calculate_quarterfinal
 		teams.each do |team|
-			team.update_attribute(:score, 4)
+
+			team.update_attribute(:score, 4) if team.team_id
 		end
 	end
 
@@ -178,10 +179,12 @@ class Game < ApplicationRecord
 	end
 
 	def score
-		return unless (home_id and away_id)
+		
 		if stage == "pool"
+			return unless (home_id and away_id)
 			games.map(&:score).compact.sum
 		else
+			return unless (home_id or away_id)
 			teams.map(&:score).compact.sum
 		end
 

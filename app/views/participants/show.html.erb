@@ -57,7 +57,7 @@
 <%teams.each do |team|%>
 
   <tr>
-    <td width="100px"> <%=team.team.name%></td>
+    <td width="100px"> <%=team.team&.name%></td>
     <td width="50px"> <%=team.score || "-"%> </td>
 
   </tr>
