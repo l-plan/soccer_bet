@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Participant:</strong>
+  <%= @bet_player.participant_id %>
+</p>
+
+<p>
+  <strong>Player:</strong>
+  <%= @bet_player.player_id %>
+</p>
+
+<p>
+  <strong>Stage:</strong>
+  <%= @bet_player.stage %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @bet_player.score %>
+</p>
+
+<%= link_to 'Edit', edit_bet_player_path(@bet_player) %> |
+<%= link_to 'Back', bet_players_path %>

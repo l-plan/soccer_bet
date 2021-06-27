@@ -3,7 +3,11 @@
 one:
   participant_id: 1
   player_id: 1
+  stage: 1
+  score: 1
 
 two:
   participant_id: 1
   player_id: 1
+  stage: 1
+  score: 1

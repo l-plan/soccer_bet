@@ -1,0 +1,2 @@
+module Bet::PlayersHelper
+end

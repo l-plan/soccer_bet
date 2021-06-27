@@ -1,19 +1,54 @@
 Rails.application.routes.draw do
+
+
+  resources :scores
+
+  resources :participants
+
+  resources :players do
+       member  do
+        get :calculate_topplayer
+        get :calculate_topscorer
+        get :reset_topplayer_scores
+        get :reset_topscorer_scores
+      end
+
+      collection do
+        get :edit_many_topplayers
+        post :update_many_topplayers
+        get :edit_many_topscorers
+        post :update_many_topscorers
+      end
+        
+  end
+
+  resources :games do 
+      member  do
+        get :calculate
+        get :reset_scores
+      end  
+
+      collection do
+        get :calculate_stage_scores
+        get :reset_stage_scores
+      end
+  end
+
+  resources :teams do
+       member  do
+        get :calculate_winner
+        get :calculate_redcard
+        get :reset_winner_scores
+        get :reset_redcard_scores
+      end    
+  end
+
+
   namespace :bet do
     resources :teams
-  end
-  namespace :bet do
-    resources :topplayers
-  end
-  namespace :bet do
-    resources :topscorers
-  end
-  resources :participants
-  namespace :bet do
+    resources :players
     resources :games
   end
-  resources :players
-  resources :games
-  resources :teams
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

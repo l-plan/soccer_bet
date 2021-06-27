@@ -1,9 +1,9 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: %i[ show edit update destroy ]
+  before_action :set_game, only: %i[ show edit update destroy calculate reset_scores]
 
   # GET /games or /games.json
   def index
-    @games = Game.all
+    @games = Game.includes(:games, :away, :home).group_by{|x| x.stage_before_type_cast}.sort_by{|k,v| k}
   end
 
   # GET /games/1 or /games/1.json
@@ -19,13 +19,34 @@ class GamesController < ApplicationController
   def edit
   end
 
+  def calculate
+    @game.calculate
+    redirect_to games_url
+  end
+
+
+  def reset_scores
+    @game.reset_scores
+    redirect_to games_url
+  end
+
+  def calculate_stage_scores
+    Game.calculate_stage_scores(params[:stage])
+    redirect_to games_url
+  end
+
+  def reset_stage_scores
+    Game.reset_stage_scores(params[:stage])
+    redirect_to games_url
+  end
+
   # POST /games or /games.json
   def create
     @game = Game.new(game_params)
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to @game, notice: "Game was successfully created." }
+        format.html { redirect_to games_url, notice: "Game was successfully created." }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +59,7 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
-        format.html { redirect_to @game, notice: "Game was successfully updated." }
+        format.html { redirect_to games_url, notice: "Game was successfully updated." }
         format.json { render :show, status: :ok, location: @game }
       else
         format.html { render :edit, status: :unprocessable_entity }

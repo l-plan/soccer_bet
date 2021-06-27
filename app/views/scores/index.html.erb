@@ -1,0 +1,10 @@
+
+<table>
+	<%@participants.each do |part|%>
+		<tr>
+			<td> <%=part.name%> </td>
+			<td> <%=part.score_total%> </td>
+			<td> <%=link_to 'show', participant_path(part)%> </td>
+		</tr>
+	<%end%>
+</table>

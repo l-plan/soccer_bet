@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: %i[ show edit update destroy ]
+  before_action :set_team, only: %i[ show edit update destroy calculate_winner reset_winner_scores calculate_redcard reset_redcard_scores]
 
   # GET /teams or /teams.json
   def index
@@ -56,6 +56,50 @@ class TeamsController < ApplicationController
     end
   end
 
+
+  def edit_many_winners
+    @winners = Team.all
+  end
+
+  def update_many_winners
+
+    if Team.winner
+      Team.winner.reset_winner_scores
+      Player.topscorer.update_attribute(:top, nil)
+    end
+
+    unless params[:id].blank?
+      @topscorer = Player.find(params[:id])
+      @topscorer.update_attribute(:top, true)
+      
+      @topscorer.topscorers.each{|x| x.update_attribute(:score, 5)}
+    end
+    
+    redirect_to games_url
+  end
+
+  def calculate_winner
+    @team.calculate_winner
+    redirect_to games_url
+  end
+
+
+  def reset_winner_scores
+    @team.reset_winner_scores
+    redirect_to games_url
+  end
+
+  def calculate_redcard
+    @team.calculate_redcard
+    redirect_to games_url
+  end
+
+
+  def reset_redcard_scores
+    @team.reset_redcard_scores
+    redirect_to games_url
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_team

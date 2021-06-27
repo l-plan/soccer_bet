@@ -4,6 +4,7 @@ class CreateBetTeams < ActiveRecord::Migration[6.1]
       t.integer :participant_id
       t.integer :stage
       t.integer :team_id
+      t.integer :score
 
       t.timestamps
     end

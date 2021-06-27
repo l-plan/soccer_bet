@@ -1,7 +1,7 @@
 class Bet::Team < ApplicationRecord
-	enum stage: {winner: 1, finale: 2, semifinal: 4, quarterfinal: 8, eightfinal: 16, redcard: 99}
+	enum stage: {winner: 6, finale: 5, semifinal: 4, quarterfinal: 3, eightfinal: 2, pool: 1, redcard: 99}
 
 	belongs_to :participant
-	belongs_to :team
+	belongs_to :team, class_name: "::Team", optional: true
 
 end

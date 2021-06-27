@@ -5,6 +5,7 @@ class CreateBetGames < ActiveRecord::Migration[6.1]
       t.integer :game_id
       t.integer :home
       t.integer :away
+      t.integer :score
 
       t.timestamps
     end

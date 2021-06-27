@@ -58,3 +58,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "roo", "~> 2.8.0"
 
+gem "prawn"
+gem "prawn-table"
+gem "prawn-icon"
+

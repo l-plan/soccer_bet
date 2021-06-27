@@ -10,5 +10,88 @@
   <%= @participant.email %>
 </p>
 
-<%= link_to 'Edit', edit_participant_path(@participant) %> |
+
+<%@participant.games.group_by{|x| x.game.date.to_date}.sort.each do |date, games|%>
+
+<p>
+<%=nld date%>
+</p>
+
+<%games.sort_by{|x| x.game.date}.each do |game|%>
+<table>
+  <tr>
+    <td width="100px"> <%=nlt game.game.date%></td>
+    <td width="150px"> <%=game.game.home.name%></td>
+    <td width="50px"> - </td>
+    <td width="150px"> <%=game.game.away.name%></td>
+
+    <td width="50px"> <%=game.game.score_home%> - <%=game.game.score_away%> </td>
+    <td width="100px"> (<%=game.home%> - <%=game.away%>) </td>
+
+    <td width="50px"> <%=game.score || "-"%> </td>
+
+  </tr>
+
+
+</table>
+
+<%end%>
+
+
+
+<%end%>
+
+<table>
+    <tr>
+      <td width="700px"> &nbsp;</td>
+      <td width="50px"> <%=@participant.games.map(&:score).compact.sum%> </td>
+  </tr>
+</table>
+
+<%@participant.teams.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, teams|%>
+
+<p>
+<%= Bet::Team.stages.invert[stage]%>
+</p>
+<table>
+<%teams.each do |team|%>
+
+  <tr>
+    <td width="100px"> <%=team.team.name%></td>
+    <td width="50px"> <%=team.score || "-"%> </td>
+
+  </tr>
+
+<%end%>
+  <tr>
+    <td width="100px"> totaal </td>
+    <td width="50px"> <%=@participant.teams.send(Bet::Team.stages.invert[stage]).map(&:score).compact.sum%></td>
+    
+
+  </tr>
+</table>
+<%end%>
+
+<%@participant.players.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, players|%>
+
+<p>
+<%= Bet::Player.stages.invert[stage]%>
+</p>
+
+<%players.each do |player|%>
+<table>
+  <tr>
+    <td width="100px"> <%=player.player.name%></td>
+    <td width="50px"> <%=player.score || "-"%> </td>
+
+  </tr>
+</table>
+<%end%>
+
+<%end%>
+
+
+
+
+
 <%= link_to 'Back', participants_path %>

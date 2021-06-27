@@ -1,0 +1,14 @@
+<%= form_with( url: {action: :update_many_topscorers}, method: :post, local: true) do  |f| %>
+
+<p>
+topscorer
+</p>
+
+<p>
+<%= f.collection_select :id, Player.order(:name), :id, :name, include_blank: "choose topscorer" %>
+</p>
+
+<p>
+<%=f.submit%>
+</p>
+<%end%>

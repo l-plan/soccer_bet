@@ -3,11 +3,34 @@ class ParticipantsController < ApplicationController
 
   # GET /participants or /participants.json
   def index
-    @participants = Participant.all
+    # @participants = Participant.includes(:games, :teams, :players)
+    @participants = Participant.includes({games: {game: [:home, :away] }}, {teams: [:team]}, players: :player)
+
+        respond_to do |format|
+      
+        format.pdf {
+          pdf = PrintParticipants.new(@participants)
+
+          send_data pdf.pdf.render, :filename=>"participants.pdf",:disposition => 'inline'
+
+        }
+        format.html
+      end
   end
 
   # GET /participants/1 or /participants/1.json
   def show
+      respond_to do |format|
+      
+        format.pdf {
+          pdf = PrintParticipant.new(@participant)
+
+          send_data pdf.pdf.render, :filename=>"participant.pdf",:disposition => 'inline'
+
+        }
+        format.html
+      end
+
   end
 
   # GET /participants/new
@@ -59,7 +82,7 @@ class ParticipantsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_participant
-      @participant = Participant.find(params[:id])
+      @participant = Participant.includes({games: {game: [:home, :away] }}, {teams: [:team]}, players: :player).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -10,45 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_174145) do
+ActiveRecord::Schema.define(version: 2021_06_18_202622) do
 
   create_table "bet_games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "game_id"
     t.integer "home"
     t.integer "away"
+    t.integer "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["participant_id"], name: "index_bet_games_on_participant_id"
+  end
+
+  create_table "bet_players", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "participant_id"
+    t.integer "player_id"
+    t.integer "stage"
+    t.integer "score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["participant_id"], name: "index_bet_players_on_participant_id"
   end
 
   create_table "bet_teams", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "stage"
     t.integer "team_id"
+    t.integer "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["participant_id"], name: "index_bet_teams_on_participant_id"
     t.index ["stage"], name: "index_bet_teams_on_stage"
     t.index ["team_id"], name: "index_bet_teams_on_team_id"
-  end
-
-  create_table "bet_topplayers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "participant_id"
-    t.integer "player_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["participant_id"], name: "index_bet_topplayers_on_participant_id"
-    t.index ["player_id"], name: "index_bet_topplayers_on_player_id"
-  end
-
-  create_table "bet_topscorers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "participant_id"
-    t.integer "player_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["participant_id"], name: "index_bet_topscorers_on_participant_id"
-    t.index ["player_id"], name: "index_bet_topscorers_on_player_id"
   end
 
   create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -60,10 +54,12 @@ ActiveRecord::Schema.define(version: 2021_06_14_174145) do
     t.integer "score_away"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "stage"
     t.index ["away_id"], name: "index_games_on_away_id"
     t.index ["date"], name: "index_games_on_date"
     t.index ["home_id"], name: "index_games_on_home_id"
     t.index ["nr"], name: "index_games_on_nr"
+    t.index ["stage"], name: "index_games_on_stage"
   end
 
   create_table "participants", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -79,6 +75,8 @@ ActiveRecord::Schema.define(version: 2021_06_14_174145) do
     t.integer "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "top"
+    t.boolean "best"
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
@@ -86,6 +84,8 @@ ActiveRecord::Schema.define(version: 2021_06_14_174145) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "winner"
+    t.boolean "red"
   end
 
 end
