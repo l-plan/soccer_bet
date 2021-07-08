@@ -65,7 +65,7 @@
           <%if Team.winner %>
 
               <td colspan="4"><%= Team.winner.name%></td>
-              <td align="center"><%= link_to 'edit'%></td>
+              <td align="center"><%= link_to 'edit',edit_many_winners_teams_path%></td>
               <td align="center"><%= link_to 'calculate', calculate_winner_team_path(Team.winner) %></td>
               
               <td align="center"><%= Team.winner.winners.map(&:score).compact.sum %></td>
@@ -74,7 +74,7 @@
               
             <%else%>
               <td colspan="4">nnb</td>
-              <td align="center"><%= link_to 'edit'%></td>
+              <td align="center"><%= link_to 'edit',edit_many_winners_teams_path%></td>
               <td></td>
               <td align="center">-</td>
               <td></td>
@@ -87,7 +87,7 @@
           <%if Team.redcard %>
 
               <td colspan="4"><%= Team.redcard.name%></td>
-              <td align="center"><%= link_to 'edit'%></td>
+              <td align="center"><%= link_to 'edit', edit_many_redcards_teams_path%></td>
               <td align="center"><%= link_to 'calculate', calculate_redcard_team_path(Team.redcard) %></td>
               
               <td align="center"><%= Team.redcard.redcards.map(&:score).compact.sum %></td>
@@ -96,7 +96,7 @@
               
             <%else%>
               <td colspan="4">nnb</td>
-              <td align="center"><%= link_to 'edit'%></td>
+              <td align="center"><%= link_to 'edit', edit_many_redcards_teams_path%></td>
               <td></td>
               <td align="center">-</td>
               <td></td>

@@ -3,7 +3,7 @@ require 'prawn/table'
 require 'prawn/icon'
 
 
-module PrintPdf
+module Pdf::PrintPdf
 	
 	Prawn::Font::AFM.hide_m17n_warning = true
 
@@ -114,6 +114,10 @@ module PrintPdf
 
 	def smaller_style
 		{ :size=>6 , :height=>20, :border_width=> 0 }
+	end
+
+	def vertical_style
+		{:size=>7 , :valign => :bottom, :rotate => 90, :align=> :left, :height=> 50, :border_width=> 0}
 	end
 
 

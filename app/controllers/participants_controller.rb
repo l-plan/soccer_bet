@@ -9,7 +9,7 @@ class ParticipantsController < ApplicationController
         respond_to do |format|
       
         format.pdf {
-          pdf = PrintParticipants.new(@participants)
+          pdf = Pdf::Participants.new(@participants)
 
           send_data pdf.pdf.render, :filename=>"participants.pdf",:disposition => 'inline'
 
@@ -23,7 +23,7 @@ class ParticipantsController < ApplicationController
       respond_to do |format|
       
         format.pdf {
-          pdf = PrintParticipant.new(@participant)
+          pdf = Pdf::Participant.new(@participant)
 
           send_data pdf.pdf.render, :filename=>"participant.pdf",:disposition => 'inline'
 

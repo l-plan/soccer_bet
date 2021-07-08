@@ -1,6 +1,6 @@
-class PrintParticipant
-	include PrintPdf
-	include PrintParticipantHelper 
+class Pdf::Participant
+	include Pdf::PrintPdf
+	include Pdf::ParticipantHelper 
 	attr_reader :pdf, :participant, :printed_on, :rank
 
 

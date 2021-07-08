@@ -65,14 +65,35 @@ class TeamsController < ApplicationController
 
     if Team.winner
       Team.winner.reset_winner_scores
-      Player.topscorer.update_attribute(:top, nil)
+      Team.winner.update_attribute(:winner, nil)
     end
 
     unless params[:id].blank?
-      @topscorer = Player.find(params[:id])
-      @topscorer.update_attribute(:top, true)
+      @winner = Team.find(params[:id])
+      @winner.update_attribute(:winner, true)
       
-      @topscorer.topscorers.each{|x| x.update_attribute(:score, 5)}
+      @winner.winners.each{|x| x.update_attribute(:score, 5)}
+    end
+    
+    redirect_to games_url
+  end
+
+  def edit_many_redcards
+    @redcards = Team.all
+  end
+
+  def update_many_redcards
+
+    if Team.redcard
+      Team.redcard.reset_redcard_scores
+      Team.redcard.update_attribute(:red, nil)
+    end
+
+    unless params[:id].blank?
+      @redcard = Team.find(params[:id])
+      @redcard.update_attribute(:red, true)
+      
+      @redcard.redcards.each{|x| x.update_attribute(:score, 5)}
     end
     
     redirect_to games_url

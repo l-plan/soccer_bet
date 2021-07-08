@@ -40,6 +40,13 @@ Rails.application.routes.draw do
         get :calculate_redcard
         get :reset_winner_scores
         get :reset_redcard_scores
+      end
+
+      collection do
+        get :edit_many_redcards
+        post :update_many_redcards
+        get :edit_many_winners
+        post :update_many_winners
       end    
   end
 

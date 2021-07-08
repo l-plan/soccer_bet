@@ -16,6 +16,18 @@ class Participant < ApplicationRecord
 	has_one :topscorer, -> { topscorer }, class_name: 'Bet::Player', inverse_of: :participant
 
 
+	scope :sorted, -> {includes(games: {game: [:home, :away] }, teams: :team, players: :player).sort_by{|x| x.score_total}.reverse}
+
+	def self.ranking
+		sorted.map{|x| {x.id => x.score_total} }
+	end
+
+
+	def self.ranked
+		includes(games: {game: [:home, :away] }, teams: :team, players: :player).group_by{|x| x.score_total}.sort.reverse.inject({}){|hsh,(pnt,a)| r=hsh.size+1; a.each{|x| hsh[x] =  [r, pnt] } ;hsh}
+	end
+
+
 	def score_winner
 		winner&.score || 0
 	end

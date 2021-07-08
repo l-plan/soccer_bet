@@ -1,0 +1,14 @@
+<%= form_with( url: {action: :update_many_winners}, method: :post, local: true) do  |f| %>
+
+<p>
+redcard
+</p>
+
+<p>
+<%= f.collection_select :id, Team.order(:name), :id, :name, include_blank: "choose winner" %>
+</p>
+
+<p>
+<%=f.submit%>
+</p>
+<%end%>

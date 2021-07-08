@@ -1,0 +1,14 @@
+<%= form_with( url: {action: :update_many_redcards}, method: :post, local: true) do  |f| %>
+
+<p>
+redcard
+</p>
+
+<p>
+<%= f.collection_select :id, Team.order(:name), :id, :name, include_blank: "choose first redcard" %>
+</p>
+
+<p>
+<%=f.submit%>
+</p>
+<%end%>

@@ -1,6 +1,6 @@
-class PrintParticipants
-	include PrintPdf
-	include PrintParticipantHelper 
+class Pdf::Participants
+	include Pdf::PrintPdf
+	include Pdf::ParticipantHelper 
 	attr_reader :pdf, :printed_on, :participants, :rank
 
 
@@ -15,15 +15,19 @@ class PrintParticipants
 
 		@pdf = Prawn::Document.new(defaults)
 
-		@participants.each_with_index do |participant, i|
-			@rank = @ranking.find{|x| x[2].include?( participant.id )}[1]
-			print_participant_page(participant)
-			pdf.start_new_page unless i==@participants.size-1
-		end
 
+		print_participants
 
 		footer_with_page_numbers
 
+	end
+
+	def print_participants
+		participants.each_with_index do |participant, i|
+			@rank = @ranking.find{|x| x[2].include?( participant.id )}[1]
+			print_participant_page(participant)
+			pdf.start_new_page unless i==participants.size-1
+		end		
 	end
 
 
