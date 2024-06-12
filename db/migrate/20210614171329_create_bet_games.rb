@@ -1,4 +1,4 @@
-class CreateBetGames < ActiveRecord::Migration[6.1]
+class CreateBetGames < ActiveRecord::Migration[7.1]
   def change
     create_table :bet_games do |t|
       t.integer :participant_id

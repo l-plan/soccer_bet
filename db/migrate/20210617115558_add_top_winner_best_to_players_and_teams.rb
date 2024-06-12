@@ -1,4 +1,4 @@
-class AddTopWinnerBestToPlayersAndTeams < ActiveRecord::Migration[6.1]
+class AddTopWinnerBestToPlayersAndTeams < ActiveRecord::Migration[7.1]
   def change
     add_column :teams, :winner, :boolean
     add_column :teams, :red, :boolean

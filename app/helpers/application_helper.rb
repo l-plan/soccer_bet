@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+	
     def nld(date)
       date.strftime( '%d %b %Y') if date
     end
@@ -19,5 +20,4 @@ module ApplicationHelper
       datetime.strftime( '%a %d %b  %H:%M') if datetime
     end
     
-
 end
