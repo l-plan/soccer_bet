@@ -3,6 +3,7 @@ class GamesController < ApplicationController
 
   # GET /games or /games.json
   def index
+    # @games = Game.includes(:games, :away, :home).group_by{|x| x.stage_before_type_cast}.sort_by{|k,v| k}
     @games = Game.includes(:games, :away, :home).group_by{|x| x.stage_before_type_cast}.sort_by{|k,v| k}
   end
 

@@ -5,32 +5,34 @@ class ImportFile
 
 
 	def initialize
-		@file = Roo::Spreadsheet.open('app/excel/totaal_pool.xlsx')
+		@file = Roo::Spreadsheet.open('app/excel/totaal_pool_24.xlsx')
 	end
 
 
 	def import_participants
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
-			part = 	sheet.cell(3,3)
-			email = sheet.cell(4,3)
+			next if name =~/Deelnemers/
+			part = 	sheet.cell(3,2)
+			email = sheet.cell(4,2)
 			@participant = Participant.new(name: part, email: email)
 
 			import_games(sheet)
 
-			import_teams(sheet, (9..24), "eightfinal",16)
+			# import_poule_eindstand
 
-			import_teams(sheet, (29..36), "quarterfinal", 16)
+			# import_teams(sheet, (59..74), "eightfinal",2)
 
-			import_teams(sheet, (41..44), "semifinal", 16)
+			# import_teams(sheet, (59..66), "quarterfinal", 5)
 
-			import_teams(sheet, (49..50), "finale",16)
+			# import_teams(sheet, (59..62), "semifinal", 8)
 
-			import_teams(sheet, (55..55), "winner",16)
+			# import_teams(sheet, (59..60), "finale",11)
 
-			import_teams(sheet, (63..63), "redcard",11)
+			# import_teams(sheet, (59..59), "winner",14)
 
-			import_players(sheet)
+			# import_teams(sheet, (72..72), "redcard",8)
+
+			# import_players(sheet)
 
 
 	
@@ -44,18 +46,18 @@ class ImportFile
 
 
 	def import_games(sheet)
-		[(9..14), (17..22) ,(25..30), (33..38), (41..46), (49..54)].each do |arr|
+		[(12..17), (19..24) ,(26..31), (33..38), (40..45), (47..52)].each do |arr|
 			arr.to_a.each do |x|
 
-				home_id = Team.find_by(name: return_official_team_name(sheet.cell(x,7).strip.downcase ) )&.id
-				away_id = Team.find_by(name: return_official_team_name(sheet.cell(x,9).strip.downcase  ) )&.id
+				home_id = Team.find_by(name: return_official_team_name(sheet.cell(x,3).strip.downcase ) )&.id
+				away_id = Team.find_by(name: return_official_team_name(sheet.cell(x,5).strip.downcase  ) )&.id
 
 				game = Game.find_by(home_id: home_id, away_id: away_id, stage: "pool")
 				unless game
-					byebug
+					binding.b
 				end
-				home 	= sheet.cell(x,10)
-				away 	= sheet.cell(x,12)
+				home 	= sheet.cell(x,7)
+				away 	= sheet.cell(x,9)
 	
 				@participant.games.build(game_id: game.id, home: home, away: away)
 
@@ -76,7 +78,7 @@ class ImportFile
 				team_id = Team.find_by(name: name )&.id
 
 				unless team_id
-					byebug
+					binding.b
 				end	
 
 				@participant.teams.build(stage: stage, team_id: team_id)
@@ -99,7 +101,7 @@ class ImportFile
 				player_id = Player.find_by(name: toppscorer )&.id
 
 				unless player_id
-					byebug
+					binding.b
 				end	
 
 				@participant.players.build(player_id: player_id, stage: "topscorer")
@@ -111,7 +113,7 @@ class ImportFile
 				player_id = Player.find_by(name: topplayer )&.id
 
 				unless player_id
-					byebug
+					binding.b
 				end	
 
 
@@ -133,7 +135,7 @@ class ImportFile
 	# 			team_id = Team.find_by(name: name )&.id
 
 	# 			unless team_id
-	# 				byebug
+	# 				binding.b
 	# 			end	
 
 	# 			@participant.teams.build(stage: "eightfinal", team_id: team_id)
@@ -152,11 +154,11 @@ class ImportFile
 	def test_participant_names
 		names = []
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 
-				part = sheet.cell(3,3) || ""
+				part = sheet.cell(3,2) || ""
 				if part.blank?
-					byebug
+					# binding.b
 				else
 					part = part.strip.downcase
 					names.push part
@@ -164,18 +166,19 @@ class ImportFile
 				end
 
 		end	
+		binding.b
+		names.map{|x| x.strip.downcase}.uniq.sort
 
-		names.map{|x| x.strip.downcase}.uniq.sort	
 	end
 
 	def test_participant_email
 		names = []
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 
-				part = sheet.cell(4,3) || ""
+				part = sheet.cell(4,2) || ""
 				if part.blank?
-					byebug
+					# binding.b
 				else
 					part = part.strip.downcase
 					names.push part
@@ -189,17 +192,17 @@ class ImportFile
 	def test_games
 
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 			
-			[(9..14), (17..22) ,(25..30), (33..38), (41..46), (49..54)].each do |arr|
+			[(12..17), (19..24) ,(26..31), (33..38), (40..45), (47..52)].each do |arr|
 				a = []
 				arr.each do |x|
-	  				a.push sheet.cell(x,10)
-	  				a.push sheet.cell(x,12)
+	  				a.push sheet.cell(x,3)
+	  				a.push sheet.cell(x,5)
   				end
-  				
+
 	  			if a.compact.size !=12
-	  				byebug
+	  				binding.b
 	  			end
 
 
@@ -214,19 +217,19 @@ class ImportFile
 	def test_teams
 
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 			
-			[[(9..24),16], [(29..36),8] ,[(41..44),4], [(49..50),2], [(55..55),1]].each do |arr|
+			[[(12..2),16], [(29..36),8] ,[(41..44),4], [(49..50),2], [(55..55),1]].each do |arr|
 				a = []
 				arr[0].to_a.each do |x|
 	  				a.push sheet.cell(x,16)
   				end
   				p a.size
 	  			if a.size !=arr[1]
-	  				byebug
+	  				binding.b
 	  			end
 	  			if a.compact.size !=arr[1]
-	  				byebug
+	  				binding.b
 	  			end
 
 
@@ -239,7 +242,7 @@ class ImportFile
 	def test_team_names
 		names = []
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 			
 			
 
@@ -263,7 +266,7 @@ class ImportFile
 	def test_red_card
 		names = []
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 
 				country = sheet.cell(63,11) || ""
 				if country
@@ -273,7 +276,7 @@ class ImportFile
 	  			names.push country
 
 	  			unless return_official_team_name(country)
-	  				byebug
+	  				binding.b
 	  			end
 
 		end	
@@ -285,7 +288,7 @@ class ImportFile
 	def test_topscorer
 		names = []
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 
 				player = sheet.cell(59,11) || ""
 				if player
@@ -296,7 +299,7 @@ class ImportFile
 
 	  			
 	  			unless return_official_player_name(player)
-	  				byebug
+	  				binding.b
 	  			end
 
 		end	
@@ -308,7 +311,7 @@ class ImportFile
 	def test_topplayer
 		names = []
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Totaal/
+			next if name =~/Deelnemers/
 
 				player = sheet.cell(61,11) || ""
 				if player
@@ -318,7 +321,7 @@ class ImportFile
 	  			names.push player
 
 	  			unless return_official_player_name(player)
-	  				byebug
+	  				binding.b
 	  			end
 
 		end	
@@ -333,58 +336,58 @@ class ImportFile
 # try to match each entry by the first 1-2-3-4 letters to only one of an official name
 # return the official name
 	def return_official_team_name(entry)
-		case entry 
+		case entry.downcase 
 
 
 
-			when /^au|^oo/
-				"austria"
-			when /^be/
-				"belgium"
-			when /^ch|^cz|^tj|^ts/
-				"chech republic"
-			when /^cr|^kr/
-				"croatia"
-			when /^de/
-				"denmark"
+			when /^alb/
+				"Albanie"
+			when /^bel/
+				"Belgie"
+			when /^den/
+				"Denemarken"
+			when /^dui/
+				"Duitsland"
 			when /^en/
-				"england"
-			when /^fi/
-				"finland"
+				"Engeland"
 			when /^fr/
-				"france"
-			when /^du|^ge/
-				"germany"
-			when /^ho/
-				"hongarije"
-			when /^it/
-				"italy"
-			when /^ma/
-				"macedonie"
-			when /^ne/
-				"netherlands"
+				"Frankrijk"
+			when /^geo/
+				"Georgie"
+			when /^hon/
+				"Hongarije"
+			when /^ita/
+				"Italie"
+			when /^kro/
+				"Kroatie"
+			when /^ned/
+				"Nederland"
+			when /^oek/
+				"Oekraine"
+			when /^oos/
+				"Oostenrijk"
 			when /^pol/
-				"poland"
-			when /^por|pot/
-				"portugal"
-			when /^ru/
-				"russia"
-			when /^sc/
-				"schotland"
-			when /^sl/
-				"slowakije"
-			when /^sp/
-				"spain"
-			when /^swe|^zwe/
-				"sweden"
-			when /^swi|^zwi/
-				"switzerland"
-			when /^tu/
-				"turkey"
-			when /^oe|^uk/
-				"ukraine"
-			when /^wa/
-				"wales"
+				"Polen"
+			when /^por/
+				"Portugal"
+			when /^roe/
+				"Roemenie"
+			when /^sch/
+				"Schotland"
+			when /^ser/
+				"Servie"
+			when /^slov/
+				"Slovenie"
+			when /^slow/
+				"Slowakije"
+			when /^spa/
+				"Spanje"
+			when /^tje/
+				"Tjechie"
+			when /^tur/
+				"Turkije"
+			when /^zwi/
+				"Zwitserland"
 
 		end
 	end
