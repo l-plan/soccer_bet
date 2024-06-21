@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  # resource :navigation, only: [:show, :destroy]
   resources :scores
 
   resources :participants

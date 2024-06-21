@@ -138,8 +138,10 @@ class ImportFile
 
 	def import_players(sheet)
 
+				# binding.b
+				toppscorer = sheet.cell(71,8)
 
-				unless toppscorer = sheet.cell(71,8)
+				unless toppscorer.blank?
 					toppscorer = sheet.cell(71,8).strip.downcase
 
 					toppscorer = return_official_player_name(toppscorer)
@@ -151,9 +153,12 @@ class ImportFile
 					end	
 
 					@participant.players.build(player_id: player_id, stage: "topscorer")
+
 				end
 
-				unless topplayer = sheet.cell(73,8)
+				topplayer = sheet.cell(73,8)
+
+				unless topplayer.blank?
 
 					topplayer = sheet.cell(73,8).strip.downcase
 

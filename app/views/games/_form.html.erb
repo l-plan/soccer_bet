@@ -22,9 +22,9 @@
 
 
   <div class="field">
-    <%= form.collection_select :home_id , Team.order(:name), :id, :name, include_blank: true%>
-    <%= form.collection_select :away_id , Team.order(:name), :id, :name, include_blank: true%>
-
+    <%#= form.collection_select :home_id , Team.order(:name), :id, :name, include_blank: true%>
+    <%#= form.collection_select :away_id , Team.order(:name), :id, :name, include_blank: true%>
+    <%=Team.find(@game.home_id).name%> -  <%=Team.find(@game.away_id).name%> 
 
     <%= form.text_field :score_home %>
 

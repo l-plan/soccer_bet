@@ -25,16 +25,16 @@ class Game < ApplicationRecord
 		games.each do |game|
 			p = 0
 			if home? and game.home?
-				p = 3
+				p = 1
 			end
 
 			if away? and game.away?
-				p = 3
+				p = 1
 			end
 
 
 			if draw? and game.draw?
-				p = 3
+				p = 1
 			end
 
 			if game.exact?
