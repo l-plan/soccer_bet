@@ -1,0 +1,72 @@
+al:
+  id: 1
+  name: Albanie
+be:
+  id: 2
+  name: Belgie
+de:
+  id: 3
+  name: Denemarken
+du:
+  id: 4
+  name: Duitsland
+en:
+  id: 5
+  name: Engeland
+fr:
+  id: 6
+  name: Frankrijk
+ge:
+  id: 7
+  name: Georgie
+ho:
+  id: 8
+  name: Hongarije
+it:
+  id: 9
+  name: Italie
+kr:
+  id: 10
+  name: Kroatie
+ne:
+  id: 11
+  name: Nederland
+oe:
+  id: 12
+  name: Oekraine
+oo:
+  id: 13
+  name: Oostenrijk
+po:
+  id: 14
+  name: Polen
+pr:
+  id: 15
+  name: Portugal
+ro:
+  id: 16
+  name: Roemenie
+sc:
+  id: 17
+  name: Schotland
+se:
+  id: 18
+  name: Servie
+sv:
+  id: 19
+  name: Slovenie
+sw:
+  id: 20
+  name: Slowakije
+sp:
+  id: 21
+  name: Spanje
+tj:
+  id: 22
+  name: Tjechie
+tu:
+  id: 23
+  name: Turkije
+zw:
+  id: 24
+  name: Zwitserland

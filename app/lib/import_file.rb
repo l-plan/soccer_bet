@@ -1,38 +1,40 @@
 require 'roo'
 class ImportFile
 
-	attr_accessor :file, :participant
+	attr_accessor :file, :participant, :warnings
 
 
 	def initialize
 		@file = Roo::Spreadsheet.open('app/excel/totaal_pool_24.xlsx')
+		@warnings = Hash.new
 	end
 
 
 	def import_participants
 		file.each_with_pagename do |name, sheet|
 			next if name =~/Deelnemers/
-			part = 	sheet.cell(3,2)
-			email = sheet.cell(4,2)
-			@participant = Participant.new(name: part, email: email)
-
+			# part = 	sheet.cell(3,2)
+			# email = sheet.cell(4,2)
+			# @participant = Participant.new(name: part, email: email)
+			# @participant = Participant.find_by(name: part, email: email) || Participant.new(name: part, email: email)
+			set_participant(sheet)
 			import_games(sheet)
 
 			# import_poule_eindstand
 
-			# import_teams(sheet, (59..74), "eightfinal",2)
+			import_teams(sheet, (59..74), "eightfinal",2)
 
-			# import_teams(sheet, (59..66), "quarterfinal", 5)
+			import_teams(sheet, (59..66), "quarterfinal", 5)
 
-			# import_teams(sheet, (59..62), "semifinal", 8)
+			import_teams(sheet, (59..62), "semifinal", 8)
 
-			# import_teams(sheet, (59..60), "finale",11)
+			import_teams(sheet, (59..60), "finale",11)
 
-			# import_teams(sheet, (59..59), "winner",14)
+			import_teams(sheet, (59..59), "winner",14)
 
-			# import_teams(sheet, (72..72), "redcard",8)
+			import_teams(sheet, (72..72), "redcard",8)
 
-			# import_players(sheet)
+			import_players(sheet)
 
 
 	
@@ -43,9 +45,16 @@ class ImportFile
 
 	end
 
+	def set_participant(sheet)
+		part = 	sheet.cell(3,2)
+		email = sheet.cell(4,2)
+		@participant = Participant.find_by(name: part, email: email) || Participant.new(name: part, email: email)
+	end
+
 
 
 	def import_games(sheet)
+		# set_participant(sheet)
 		[(12..17), (19..24) ,(26..31), (33..38), (40..45), (47..52)].each do |arr|
 			arr.to_a.each do |x|
 
@@ -63,63 +72,104 @@ class ImportFile
 
 			
 			end
+
 			
 		end
+
+		# @participant.save
 	end
 
 	def import_teams(sheet, range, stage, column)
-		# [(9..24),16], [(29..36),8] ,[(41..44),4], [(49..50),2], [(55..55),1]]
-			
+		
 			range.to_a.each do |x|
-				name = sheet.cell(x,column).strip.downcase
+				name = sheet.cell(x,column)
+				next if name.blank?
+				name = name.strip.downcase
+
+				
 
 				name = return_official_team_name(name)
 
 				team_id = Team.find_by(name: name )&.id
 
-				unless team_id
-					binding.b
-				end	
+				# unless team_id
+				# 	binding.b
+				# end	
 
 				@participant.teams.build(stage: stage, team_id: team_id)
 
 
 	  		end
 
+			check_for_team_warnings(stage)
 
 
 	end	
 
+	def check_for_team_warnings(stage)
+			amount = 1
+			case stage
+				when "eightfinal"
+					amount = 16
+				when "quarterfinal"
+					amount = 8
+				when "semifinal"
+					amount = 4
+				when "finale"
+					amount = 2
+			end
+
+		size = @participant.teams.select{|x| x.stage==stage}.size
+		unless size==amount
+			warnings[@participant.name] = {} unless warnings[@participant.name]
+
+			warnings[@participant.name][stage] = "#{@participant.name} only has #{size} entries out of #{amount} for #{stage}"
+		end
+	end
+
+	def check_for_player_warnings(stage)
+		size = @participant.players.select{|x| x.stage==stage}.size
+		unless size==1
+			warnings[@participant.name] = {} unless warnings[@participant.name]
+			warnings[@participant.name][stage] = "#{@participant.name} only has no entry for #{stage}"
+		end
+
+	end
+
 	def import_players(sheet)
-		# [(9..24),16], [(29..36),8] ,[(41..44),4], [(49..50),2], [(55..55),1]]
-			
-
-				toppscorer = sheet.cell(59,11).strip.downcase
-
-				toppscorer = return_official_player_name(toppscorer)
-
-				player_id = Player.find_by(name: toppscorer )&.id
-
-				unless player_id
-					binding.b
-				end	
-
-				@participant.players.build(player_id: player_id, stage: "topscorer")
-
-				topplayer = sheet.cell(61,11).strip.downcase
-
-				topplayer = return_official_player_name(topplayer)
-
-				player_id = Player.find_by(name: topplayer )&.id
-
-				unless player_id
-					binding.b
-				end	
 
 
-				@participant.players.build(player_id: player_id, stage: "topplayer")
+				unless toppscorer = sheet.cell(71,8)
+					toppscorer = sheet.cell(71,8).strip.downcase
+
+					toppscorer = return_official_player_name(toppscorer)
+
+					player_id = Player.find_by(name: toppscorer )&.id
+
+					unless player_id
+						binding.b
+					end	
+
+					@participant.players.build(player_id: player_id, stage: "topscorer")
+				end
+
+				unless topplayer = sheet.cell(73,8)
+
+					topplayer = sheet.cell(73,8).strip.downcase
+
+					topplayer = return_official_player_name(topplayer)
+
+					player_id = Player.find_by(name: topplayer )&.id
+
+					unless player_id
+						binding.b
+					end	
+
+
+					@participant.players.build(player_id: player_id, stage: "topplayer")
+				end
 	
-
+				@participant.save
 
 
 	end	
@@ -285,22 +335,28 @@ class ImportFile
 	end
 
 
-	def test_topscorer
+	def test_players
 		names = []
 		file.each_with_pagename do |name, sheet|
 			next if name =~/Deelnemers/
 
-				player = sheet.cell(59,11) || ""
-				if player
-					player = player.strip.downcase
-				end
+			player = sheet.cell(71,8)
+			unless player.blank?
+				player = player.strip.downcase
+			end
 
-	  			names.push player
+  			names.push player
 
-	  			
-	  			unless return_official_player_name(player)
-	  				binding.b
-	  			end
+
+			player = sheet.cell(73,8)
+			unless player.blank?
+				player = player.strip.downcase
+			end
+
+  			names.push player	  			
+  			# unless return_official_player_name(player)
+  			# 	binding.b
+  			# end
 
 		end	
 
@@ -308,26 +364,26 @@ class ImportFile
 		names.map{|x| x.strip.downcase}.uniq.sort		
 	end
 
-	def test_topplayer
-		names = []
-		file.each_with_pagename do |name, sheet|
-			next if name =~/Deelnemers/
+	# def test_topplayer
+	# 	names = []
+	# 	file.each_with_pagename do |name, sheet|
+	# 		next if name =~/Deelnemers/
 
-				player = sheet.cell(61,11) || ""
-				if player
-					player = player.strip.downcase
-				end
+	# 			player = sheet.cell(73,8) || ""
+	# 			if player
+	# 				player = player.strip.downcase
+	# 			end
 
-	  			names.push player
+	#   			names.push player
 
-	  			unless return_official_player_name(player)
-	  				binding.b
-	  			end
+	#   			unless return_official_player_name(player)
+	#   				binding.b
+	#   			end
 
-		end	
+	# 	end	
 
-		names.map{|x| x.strip.downcase}.uniq.sort		
-	end
+	# 	names.map{|x| x.strip.downcase}.uniq.sort		
+	# end
 
 
 
@@ -362,7 +418,7 @@ class ImportFile
 				"Kroatie"
 			when /^ned/
 				"Nederland"
-			when /^oek/
+			when /^oek|^ukr/
 				"Oekraine"
 			when /^oos/
 				"Oostenrijk"
@@ -402,160 +458,45 @@ end
 
 	def return_official_player_name(entry)
 		case entry
-			when /benz/
-				"benzema"
-			when /brui|bruy/
-				"bruyne"
-			when /cour/
-				"courtois"
-			when /jong/
-				"de jong"
-			when /ligt/
-				"de ligt"
-			when /depa/
+			when /bell/
+				"bellingham"
+			when /depa|memp/
 				"depay"
-			when /gnab/
-				"gnabri"
-			when /grav/
-				"gravenberg"
-			when /hav/
-				"havertz"
-			when /immo/
-				"immobile"
-			when /ins/
-				"insigne"
+			when /dijk/
+			 	"virgil van dijk"
+			when /dolb/
+			 	"kasper dolberg"
+			when /fern/
+				 "bruno fernandez"
+			when /fode/
+			 	"phil foden"
+			when /frim/
+			 	"frimpong"
+			when /full/
+			 	"fullkrug"
+			when /have/
+			 	"havertz"
 			when /kane/
-				"kane"
-			when /kant/
-				"kante"
-			when /lewa/
-				"lewandowski"
-			when /luk/
-				"lukaku"
-			when /mba|mapp|mpab/
-				"mbappe"
-			when /mor/
-				"morata"
-			when /moun/
-				"mount"
-			when /rash/
-				"rashford"
+			 	"harry kane"
+			when /kroo/
+			 	"kroos"
+			when /luka/
+			 	"lukaku"
+			when /mbap|nbap|m'bap/
+			 	"killian mbappe"
 			when /rona/
-				"ronaldo"
-			when /san/
-				"sane"
+			 	"ronaldo"
+			when /saka/
+			 	"bukayo saka"
+			when /simo/
+			 	"simons"
+			when /wirt/
+				 "florian wirtz"
 
 		end
 	end
-#player-entrys
-	# "alvaro morata"
-	# "benzema"
-	# "c. immobile"
-	# "de bruijne"
-	# "depay"
-	# "harry kane"
-	# "havertz"
-	# "k. mbappé"
-	# "kane"
-	# "karim benzema"
-	# "kylian mbappe"
-	# "kylian mbappé"
-	# "leroy sane"
-	# "lewandowski"
-	# "lukaku"
-	# "mappee"
-	# "mbappe"
-	# "mbappé"
-	# "mpabbe"
-	# "rashford"
-	# "romelu lukaku"
-	# "serge gnabry"
 
-	# "courtois"
-	# "de bruyne"
-	# "de ligt"
-	# "frenkie de jong"
-	# "gravenberg"
-	# "harry kane"
-	# "k. mbappé"
-	# "kante (frankrijk)"
-	# "kylian mbappe"
-	# "kylian mbappé"
-	# "leroy sané"
-	# "lewandovski"
-	# "lorenzo insigne"
-	# "lukaku"
-	# "mappee"
-	# "mason mount"
-	# "mbape"
-	# "mbappe"
-	# "mbappé"
-	# "n'golo kanté"
-	# "ngolo kante"
-	# "ronaldo"
 
-#entries:
-			# "austria"
-			# "begie"
-			# "belgie"
-			# "belgium"
-			# "belgië"
-			# "chech rep"
-			# "chech republic"
-			# "chechrepublic"
-			# "croatia"
-			# "croatie"
-			# "croatië"
-			# "czech republic"
-			# "denemarken"
-			# "denmark"
-			# "duitsland"
-			# "duitslang"
-			# "engeland"
-			# "engelend"
-			# "england"
-			# "finland"
-			# "france"
-			# "frankrijk"
-			# "germany"
-			# "hongarije"
-			# "italie"
-			# "italië"
-			# "italy"
-			# "kroatie"
-			# "kroatië"
-			# "macedonie"
-			# "nederland"
-			# "netherlands"
-			# "oekraiene"
-			# "oekraine"
-			# "oekraïne"
-			# "oostenrijk"
-			# "poland"
-			# "polen"
-			# "portugal"
-			# "potugal"
-			# "rusland"
-			# "russia"
-			# "schotland"
-			# "slowakije"
-			# "spain"
-			# "spanje"
-			# "sweden"
-			# "switserland"
-			# "switzerland"
-			# "tjechie"
-			# "tjechië"
-			# "tsjechie"
-			# "turkey"
-			# "turkije"
-			# "turkijke"
-			# "ukraine"
-			# "wales"
-			# "zweden"
-			# "zwisterland"
-			# "zwitersland"
-			# "zwitserland"
 
 
 
