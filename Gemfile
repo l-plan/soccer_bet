@@ -76,5 +76,6 @@ gem "prawn-icon"
 
 
 
+gem 'devise'
 
 
