@@ -52,6 +52,8 @@ Rails.application.routes.draw do
         post :update_many_redcards
         get :edit_many_winners
         post :update_many_winners
+        get :edit_many_rankings
+        post :update_many_rankings
       end    
   end
 

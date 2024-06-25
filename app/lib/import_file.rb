@@ -13,14 +13,11 @@ class ImportFile
 	def import_participants
 		file.each_with_pagename do |name, sheet|
 			next if name =~/Deelnemers/
-			# part = 	sheet.cell(3,2)
-			# email = sheet.cell(4,2)
-			# @participant = Participant.new(name: part, email: email)
-			# @participant = Participant.find_by(name: part, email: email) || Participant.new(name: part, email: email)
+
 			set_participant(sheet)
 			import_games(sheet)
 
-			# import_poule_eindstand
+
 
 			import_teams(sheet, (59..74), "eightfinal",2)
 
@@ -36,13 +33,55 @@ class ImportFile
 
 			import_players(sheet)
 
-
+			import_poule_score(sheet, (12..50), "poule_score",12)
 	
 			@participant.save
 
 
 		end
 
+	end
+
+	def import_poule_score(sheet,range, stage,column)
+
+		poule = "a"
+		poule_rank = 1
+		range.each do |x|
+
+				letter = sheet.cell(x,11)
+		
+				if letter and letter.size > 3
+					poule=letter.last.downcase
+				end
+
+
+				name = sheet.cell(x,column)
+				next if name.blank?
+
+
+
+		
+
+
+
+
+				name = name.strip.downcase
+
+
+				
+
+				name = return_official_team_name(name)
+
+
+				unless name
+					binding.b
+				end
+				team_id = Team.find_by(name: name )&.id	
+				
+				@participant.teams.build(stage: stage, team_id: team_id,poule: poule, poule_rank: poule_rank )
+				poule_rank += 1
+				poule_rank = 1 if poule_rank == 5
+		end
 	end
 
 	def set_participant(sheet)
@@ -425,7 +464,7 @@ class ImportFile
 				"Nederland"
 			when /^oek|^ukr/
 				"Oekraine"
-			when /^oos/
+			when /^oos|^oss/
 				"Oostenrijk"
 			when /^pol/
 				"Polen"
@@ -443,7 +482,7 @@ class ImportFile
 				"Slowakije"
 			when /^spa/
 				"Spanje"
-			when /^tje/
+			when /^tje|^tsj/
 				"Tjechie"
 			when /^tur/
 				"Turkije"

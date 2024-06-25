@@ -120,6 +120,13 @@ class TeamsController < ApplicationController
     @team.reset_redcard_scores
     redirect_to games_url
   end
+
+  def edit_many_rankings
+    @poules = Team.all.group_by{|x| x.poule}
+  end
+
+  def update_many_rankings
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.

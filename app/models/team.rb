@@ -39,4 +39,7 @@ class Team < ApplicationRecord
 		redcards.each{|x| x.update_attribute(:score, nil)}
 	end
 
+	def calculate_poule_rank_score
+	end
+
 end
