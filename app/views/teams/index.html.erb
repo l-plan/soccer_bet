@@ -13,10 +13,16 @@
   <tbody>
     <% @teams.each do |team| %>
       <tr>
-        <td><%= team.name %></td>
-        <td><%= link_to 'Show', team %></td>
-        <td><%= link_to 'Edit', edit_team_path(team) %></td>
-        <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td width="100"><%= team.name %></td>
+        <td width="25"><%= check? team.fin16 %></td>
+        <td width="25"><%= check? team.fin8 %></td>
+        <td width="25"><%= check? team.fin4 %></td>
+        <td width="25"><%= check? team.fin2 %></td>
+        <td width="25"><%= check? team.winner %></td>
+        <td width="25"><%= check? team.red%></td>
+        <td width="50"><%= link_to 'Show', team %></td>
+        <td width="50"><%= link_to 'Edit', edit_team_path(team) %></td>
+        <td width="50"><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +30,24 @@
 
 <br>
 
-<%= link_to 'New Team', new_team_path %>
+
+  <div class='bottom-links'>
+    <div class="row">
+
+      <div id="edit-link" class="col-4">
+        <%=link_to 'reset 8-final scores', reset_eightfinalists_teams_path %>
+      </div>
+
+      <div id="edit-link" class="col-4">
+        <%=link_to 'calculate 8-final scores', calculate_eightfinalists_teams_path %>
+      </div>
+
+      <div id="add-link" class="col-4 text-end link">
+          <%= link_to 'New Team', new_team_path %>
+
+      </div>
+
+    </div>
+  </div>
+
+

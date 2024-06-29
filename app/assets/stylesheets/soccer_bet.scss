@@ -1,0 +1,17 @@
+@import "mixins";
+
+body{
+
+/*	background-color: #d1d0cd;*/
+	margin:3em;
+}
+
+
+
+.t-area{
+	background-color:white;
+	margin-top:1em;
+	margin-botton: 1em;
+	@include borders(4px,#D3D3D3)
+
+}

@@ -8,7 +8,12 @@ class Team < ApplicationRecord
 	has_many :quarterfinalists, -> { quarterfinal }, class_name: 'Bet::Team', inverse_of: :team
 	has_many :eightfinalists, -> { eightfinal }, class_name: 'Bet::Team', inverse_of: :team
 
+	has_many :poule_scores, -> { poule_score }, class_name: 'Bet::Team', inverse_of: :team
 
+
+
+
+	scope :eightfinal, -> {where(fin16: true)}
 
 
 
@@ -31,15 +36,55 @@ class Team < ApplicationRecord
 	end
 
 
-	def calculate_redcard
-		redcards.each{|x| x.update_attribute(:score, 5)}
+	# def calculate_redcard
+	# 	redcards.each{|x| x.update_attribute(:score, 5)}
+	# end
+
+	# def reset_redcard_scores
+	# 	redcards.each{|x| x.update_attribute(:score, nil)}
+	# end
+
+	def calculate_eightfinalists
+		eightfinalists.each{|x| x.update_attribute(:score, 2)}
 	end
 
-	def reset_redcard_scores
-		redcards.each{|x| x.update_attribute(:score, nil)}
+
+
+	def reset_eightfinalists
+		eightfinalists.each{|x| x.update_attribute(:score, nil)}
+	end
+	# def reset_poule_rank_score
+	# 	poule_scores.each{|x| x.update_attribute(:poule_score, 0)}
+	# end
+
+
+	# def calculate_poule_rank_score
+	# 	poule_scores.each{|x| x.update_attribute(:poule_score, 1) if poule_rank == x.poule_rank}
+	# end
+	class << self
+
+		def calculate_redcard
+			redcard.redcards.each{|x| x.update_attribute(:score, 5)}
+		end
+
+		def reset_redcard
+			Bet::Team.redcard.each{|x| x.update_attribute(:score, nil)}
+		end
+
+
+		def calculate_eightfinalists
+			eightfinal.each do |team|
+				team.eightfinalists.each{|x| x.update_attribute(:score, 2)}
+			end
+		end
+
+
+
+		def reset_eightfinalists
+			Bet::Team.eightfinal.each{|x| x.update_attribute(:score, nil)}
+		end
+
 	end
 
-	def calculate_poule_rank_score
-	end
 
 end

@@ -4,3 +4,12 @@
 table, th, td {
   border: 1px solid black;
 }
+
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+@import "rails_bootstrap_forms.css";
+
+
+@import "mixins";
+@import "soccer_bet";

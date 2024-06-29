@@ -4,30 +4,31 @@ class Player < ApplicationRecord
 	has_many :topscorers, -> { topscorer }, class_name: "Bet::Player", inverse_of: :player
 
 
-	def self.topplayer
-		self.find_by(best: true)
-	end
-
-	def self.topscorer
-		self.find_by(top: true)
-	end
+	scope :topplayer, -> {where(best: true)}
+	scope :topscorer, -> {where(top: true)}
 
 
+	class << self
 
-	def calculate_topplayer
-		topplayers.each{|x| x.update_attribute(:score, 15)}
-	end
+		def calculate_topplayer
+			topplayer.each do |player|
+				player.topplayers.each{|x| x.update_attribute(:score, 5)}
+			end
+		end
 
-	def reset_topplayer_scores
-		topplayers.each{|x| x.update_attribute(:score, nil)}
-	end
+		def reset_topplayer
+			Bet::Player.topplayer.each{|x| x.update_attribute(:score, nil)}
+		end
 
+		def calculate_topscorer
+			topscorer.each do |player|
+				player.topscorers.each{|x| x.update_attribute(:score, 5)}
+			end
+		end
 
-	def calculate_topscorer
-		topscorers.each{|x| x.update_attribute(:score, 5)}
-	end
+		def reset_topscorer
+			Bet::Player.topscorer.each{|x| x.update_attribute(:score, nil)}
+		end
 
-	def reset_topscorer_scores
-		topscorers.each{|x| x.update_attribute(:score, nil)}
 	end
 end

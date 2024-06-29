@@ -52,13 +52,7 @@
 </tr>
     <%end%>
 
-<tr> 
-  <td><%=link_to "todo: calculate all games"%> </td>
-</tr>
 
-<tr> 
-  <td><%=link_to "todo: reset all games"%>  </td>
-</tr>
 
         <tr>
           <td colspan="3"> <b>winner</b></td>
@@ -105,13 +99,13 @@
 
         <tr>
           <td colspan="3"> <b>topplayer</b></td>
-          <%if Player.topplayer %>
+          <%if Player.topplayer.any? %>
 
               <td colspan="4"><%= Player.topplayer.name%></td>
               <td align="center"><%= link_to 'edit', edit_many_topplayers_players_path %></td>
               <td align="center"><%= link_to 'calculate', calculate_topplayer_player_path(Player.topplayer) %></td>
               
-              <td align="center"><%= Player.topplayer.topplayers.map(&:score).compact.sum %></td>
+              <td align="center"><%#= Player.topplayer.topplayers.map(&:score).compact.sum %></td>
               <td align="center"><%= link_to 'reset_scores', reset_topplayer_scores_player_path(Player.topplayer)%></td>
 
               
@@ -126,7 +120,7 @@
 
         <tr>
           <td colspan="3"> <b>topscorer</b></td>
-          <%if Player.topscorer %>
+          <%if Player.topscorer.any? %>
 
               <td colspan="4"><%= Player.topscorer.name%></td>
               <td align="center"><%= link_to 'edit', edit_many_topscorers_players_path %></td>

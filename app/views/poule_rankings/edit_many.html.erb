@@ -1,0 +1,37 @@
+
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>rank</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  	<%['a', 'b', 'c', 'd', 'e', 'f'].each do |poule| %>
+  	<tr>
+  		<td><%= poule.upcase %></td>
+  	</tr>
+
+	  	<%= form_tag update_many_poule_rankings_path, method: :post do %>
+	  		<%= hidden_field_tag :poule, poule%>
+		    <%@poules[poule].sort_by{|x| [x.poule_rank, x.name.downcase]}.each do |team|%>
+		    	<%= fields_for "teams[#{team.id}]" do |t| %>
+				      <tr>
+				        <td><%=team.name%></td>
+				        <td><%=t.text_field :poule_rank, value: team.poule_rank%></td>
+				        <%=t.hidden_field :id, value: team.id%>
+				        <%#=t.hidden_field :poule, value: poule%>
+				      </tr>
+		      	<%end%>
+	     	
+		    <% end %>
+
+			<tr>
+		  		<td colspan="4"><%= submit_tag "Save poule #{poule}" %></td>
+		  	</tr>
+		 <%end%>	 
+    <%end%>
+  </tbody>
+</table>

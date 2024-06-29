@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_24_162831) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_26_222312) do
   create_table "bet_games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "game_id"
@@ -41,7 +41,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_162831) do
     t.datetime "updated_at", null: false
     t.string "poule"
     t.integer "poule_rank"
-    t.integer "poule_score"
     t.index ["participant_id"], name: "index_bet_teams_on_participant_id"
     t.index ["stage"], name: "index_bet_teams_on_stage"
     t.index ["team_id"], name: "index_bet_teams_on_team_id"
@@ -90,6 +89,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_162831) do
     t.boolean "red"
     t.string "poule"
     t.integer "poule_rank"
+    t.boolean "fin16"
+    t.boolean "fin8"
+    t.boolean "fin4"
+    t.boolean "fin2"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

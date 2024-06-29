@@ -111,21 +111,26 @@ class TeamsController < ApplicationController
   end
 
   def calculate_redcard
-    @team.calculate_redcard
+    # @team.calculate_redcard
+    Team.calculate_redcard
     redirect_to games_url
   end
 
 
   def reset_redcard_scores
-    @team.reset_redcard_scores
-    redirect_to games_url
+    # @team.reset_redcard_scores
+    Team.reset_redcard
+    redirect_to scores_url
   end
 
-  def edit_many_rankings
-    @poules = Team.all.group_by{|x| x.poule}
+  def calculate_eightfinalists
+    Team.calculate_eightfinalists
+    redirect_to scores_url
   end
 
-  def update_many_rankings
+  def reset_eightfinalists
+    Team.reset_eightfinalists
+    redirect_to scores_url
   end
   
   private

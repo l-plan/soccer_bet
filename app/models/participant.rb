@@ -12,6 +12,9 @@ class Participant < ApplicationRecord
 	has_many :quarterfinalists, -> { quarterfinal }, class_name: 'Bet::Team', inverse_of: :participant
 	has_many :eightfinalists, -> { eightfinal }, class_name: 'Bet::Team', inverse_of: :participant
 
+	has_many :poule_scores, -> { poule_score }, class_name: 'Bet::Team', inverse_of: :participant
+	has_many :poule_bonuses, -> { poule_bonus }, class_name: 'Bet::Team', inverse_of: :participant
+
 	has_one :topplayer, -> { topplayer }, class_name: 'Bet::Player', inverse_of: :participant
 	has_one :topscorer, -> { topscorer }, class_name: 'Bet::Player', inverse_of: :participant
 
@@ -67,7 +70,16 @@ class Participant < ApplicationRecord
 	def score_topscorer
 		topscorer&.score || 0
 	end
+
+	def score_poule_ranking
+		poule_scores.map(&:score).compact.sum
+	end
 	
+
+	def score_poule_bonus
+		poule_bonuses.map(&:score).compact.sum
+	end
+
 	def score_total
 		( games.map(&:score) + teams.map(&:score) + players.map(&:score) ).compact.sum
 	end

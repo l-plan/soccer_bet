@@ -12,6 +12,8 @@
 			<td> finale</td>
 			<td> winner</td>
 			<td> redcard</td>
+			<td> poule rank</td>
+			<td> poule bonus</td>
 			<td> topplayer</td>
 			<td> topscorer</td>
 			<td> total </td>
@@ -32,6 +34,8 @@
 			<td> <%=part.teams.select{|x| x.stage == 'finale'}.map(&:score).compact.sum %> </td>
 			<td> <%=part.teams.select{|x| x.stage == 'winner'}.map(&:score).compact.sum %> </td>
 			<td> <%=part.teams.select{|x| x.stage == 'redcard'}.map(&:score).compact.sum %> </td>
+			<td> <%=part.teams.select{|x| x.stage == 'poule_score'}.map(&:score).compact.sum %> </td>
+			<td> <%=part.teams.select{|x| x.stage == 'poule_bonus'}.map(&:score).compact.sum %> </td>
 			<td> <%=part.players.select{|x| x.stage == 'topplayer'}.map(&:score).compact.sum %> </td>
 			<td> <%=part.players.select{|x| x.stage == 'topscorer'}.map(&:score).compact.sum %> </td>
 

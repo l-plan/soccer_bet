@@ -80,6 +80,11 @@ gem "bcrypt_pbkdf", "~> 1.1"
 
 gem 'devise'
 
+gem "bootstrap_form", "~> 5.4"
+
+gem 'spreadsheet'
+
+
 
 
 

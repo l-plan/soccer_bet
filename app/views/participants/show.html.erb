@@ -10,86 +10,138 @@
   <%= @participant.email %>
 </p>
 
-
+<div class='row t-area'>
+  <div class='col-12'>poulfase</div>
+</div>
 <%@participant.games.group_by{|x| x.game.date.to_date}.sort.each do |date, games|%>
 
-<p>
-<%=nld date%>
-</p>
+  <div class='row'>
+    <div class='col-12'><%=nld date%></div>
+  </div>
 
-<%games.sort_by{|x| x.game.date}.each do |game|%>
-<table>
-  <tr>
-    <td width="100px"> <%=nlt game.game.date%></td>
-    <td width="150px"> <%=game.game.home.name%></td>
-    <td width="50px"> - </td>
-    <td width="150px"> <%=game.game.away.name%></td>
-
-    <td width="50px"> <%=game.game.score_home%> - <%=game.game.score_away%> </td>
-    <td width="100px"> (<%=game.home%> - <%=game.away%>) </td>
-
-    <td width="50px"> <%=game.score || "-"%> </td>
-
-  </tr>
-
-
-</table>
+  <%games.sort_by{|x| x.game.date}.each do |game|%>
+    <%=render 'games/game', game: game%>
+  <%end%>
 
 <%end%>
 
+<div class='row t-area'>
+  <div class='col-11'>totaal poulfase</div>
+  <div class='col-1 text-center'><%=@participant.games.map(&:score).compact.sum%> </div>
+</div>
 
+<div class='row t-area'>
+  <div class='col-12'> voorspellingen knockout</div>
+</div>
+
+<div class='row'>
+<%@participant.teams.knockout.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, teams|%>
+
+    <div class='col-3'>
+
+        <div class='row'>
+          <div class='col-8'><%= Bet::Team.stages.invert[stage]%></div>
+        </div>
+
+        <%teams.each do |team|%>
+          <%=render 'teams/team', team: team%>
+        <%end%>
+
+        <div class='row'>
+          <div class='col-8'> <%= Bet::Team.stages.invert[stage]%></div>
+          <div class='col-4 text-center'><%=@participant.teams.send(Bet::Team.stages.invert[stage]).map(&:score).compact.sum%> </div>
+        </div>
+
+    </div>
 
 <%end%>
 
-<table>
-    <tr>
-      <td width="700px"> &nbsp;</td>
-      <td width="50px"> <%=@participant.games.map(&:score).compact.sum%> </td>
-  </tr>
-</table>
+</div>
 
-<%@participant.teams.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, teams|%>
+<div class='row t-area'>
+  <div class='col-11'> totaal voorspellingen knockout</div>
+  <div class='col-1 text-center'><%=@participant.teams.knockout.map(&:score).compact.sum%> </div>
+</div>
 
-<p>
-<%= Bet::Team.stages.invert[stage]%>
-</p>
-<table>
-<%teams.each do |team|%>
 
-  <tr>
-    <td width="100px"> <%=team.team&.name%></td>
-    <td width="50px"> <%=team.score || "-"%> </td>
 
-  </tr>
+<div class='row t-area'>
+  <div class='col-12'> voorspellingen poule-stand</div>
+</div>
 
-<%end%>
-  <tr>
-    <td width="100px"> totaal </td>
-    <td width="50px"> <%=@participant.teams.send(Bet::Team.stages.invert[stage]).map(&:score).compact.sum%></td>
-    
+<div class='row'>
 
-  </tr>
-</table>
-<%end%>
+
+  <%@participant.teams.select{|x| x.stage=='poule_score'}.group_by{|x| x.poule}.sort.each do |poule, teams|%>
+
+    <div class='col-4'>
+
+        <div class='row'>
+          <div class='col-12'>
+            <%=poule.upcase%>
+          </div>
+        </div>
+
+        <%teams.sort_by{|x| x.team.poule_rank}.each do |team|%>
+
+
+            <div class='row'>
+              <div class='col-2'> <%=team.team.poule_rank%> </div>
+              <div class='col-4'> <%=team.team.name%></div>
+              <div class='col-2 text-center'> (<%=team.poule_rank%>) </div>
+              <div class='col-2'> &nbsp;</div>
+              <div class='col-2 text-center'> <%=team.score%></div>
+            </div>
+
+        <%end%>
+
+        <div class='row'>
+          <div class='col-10'> bonus </div>
+          <div class='col-2 text-center'> <%=@participant.teams.select{|x| x.stage=='poule_bonus'}.group_by{|x| x.poule}[poule].first.score || 0%></div>
+        </div>
+    </div>
+  <%end%>
+
+
+</div>
+
+<div class='row t-area'>
+  <div class='col-11'> totaal voorspellingen poule-stand</div>
+  <div class='col-1 text-center'><%=@participant.teams.pouleranking.map(&:score).compact.sum%> </div>
+</div>
+
+
+
+<% redcard = @participant.teams.redcard.first%>
+
+
+  <div class='row t-area'>
+    <div class='col-5'> eerste rode kaart </div>
+    <div class='col-6'> <%=redcard ? redcard.team.name : "n.v.t."%>  </div>
+    <div class='col-1 text-center'><%=redcard ? redcard.score : 0 %> </div>
+  </div>
+
 
 <%@participant.players.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, players|%>
 
-<p>
-<%= Bet::Player.stages.invert[stage]%>
-</p>
 
-<%players.each do |player|%>
-<table>
-  <tr>
-    <td width="100px"> <%=player.player.name%></td>
-    <td width="50px"> <%=player.score || "-"%> </td>
+    <%players.each do |player|%>
 
-  </tr>
-</table>
-<%end%>
+      <div class='row t-area'>
+        <div class='col-5'> <%= Bet::Player.stages.invert[stage]%></div>
+        <div class='col-6'> <%=player.player.name%> </div>
+        <div class='col-1 text-center'><%=player.score || "-"%>  </div>
+      </div>
+
+    <%end%>
 
 <%end%>
 
+<div class='row t-area'>
+  <div class='col-11'> totaal score </div>
+
+  <div class='col-1 text-center'><%=@participant.score_total %> </div>
+</div>
 
 
 

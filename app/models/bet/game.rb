@@ -18,5 +18,13 @@ class Bet::Game < ApplicationRecord
 	def exact?
 		home == game.score_home and away == game.score_away
 	end
+
+	def points
+		score
+	end
+
+
+
+
 end
 

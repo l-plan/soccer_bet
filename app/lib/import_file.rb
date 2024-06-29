@@ -1,5 +1,7 @@
 require 'roo'
+
 class ImportFile
+	include NamesHelper
 
 	attr_accessor :file, :participant, :warnings
 
@@ -43,8 +45,12 @@ class ImportFile
 	end
 
 	def import_poule_score(sheet,range, stage,column)
-
+		%w(a b c d e f).each do |poule_letter|
+			@participant.teams.build(stage: 88,poule: poule_letter )
+		end
+		
 		poule = "a"
+
 		poule_rank = 1
 		range.each do |x|
 
@@ -79,16 +85,17 @@ class ImportFile
 				team_id = Team.find_by(name: name )&.id	
 				
 				@participant.teams.build(stage: stage, team_id: team_id,poule: poule, poule_rank: poule_rank )
+
 				poule_rank += 1
 				poule_rank = 1 if poule_rank == 5
 		end
 	end
 
-	def set_participant(sheet)
-		part = 	sheet.cell(3,2)
-		email = sheet.cell(4,2)
-		@participant = Participant.find_by(name: part, email: email) || Participant.new(name: part, email: email)
-	end
+	# def set_participant(sheet)
+	# 	part = 	sheet.cell(3,2)
+	# 	email = sheet.cell(4,2)
+	# 	@participant = Participant.find_by(name: part, email: email) || Participant.new(name: part, email: email)
+	# end
 
 
 
@@ -218,28 +225,7 @@ class ImportFile
 
 	end	
 
-	# def import_8_finalists(sheet)
-	# 	# [(9..24),16], [(29..36),8] ,[(41..44),4], [(49..50),2], [(55..55),1]]
-			
-	# 		(9..24).to_a.each do |x|
-	# 			name = sheet.cell(x,16).strip.downcase
 
-	# 			name = return_official_team_name(name)
-
-	# 			team_id = Team.find_by(name: name )&.id
-
-	# 			unless team_id
-	# 				binding.b
-	# 			end	
-
-	# 			@participant.teams.build(stage: "eightfinal", team_id: team_id)
-
-
-	#   		end
-
-
-
-	# end
 
 
 
@@ -408,137 +394,15 @@ class ImportFile
 		names.map{|x| x.strip.downcase}.uniq.sort		
 	end
 
-	# def test_topplayer
-	# 	names = []
-	# 	file.each_with_pagename do |name, sheet|
-	# 		next if name =~/Deelnemers/
-
-	# 			player = sheet.cell(73,8) || ""
-	# 			if player
-	# 				player = player.strip.downcase
-	# 			end
-
-	#   			names.push player
-
-	#   			unless return_official_player_name(player)
-	#   				binding.b
-	#   			end
-
-	# 	end	
-
-	# 	names.map{|x| x.strip.downcase}.uniq.sort		
-	# end
 
 
 
-# first find all name-entrys, stripped, downcased and uniq as returned by method test_team_names
-# list the 24 official names from the database
-# try to match each entry by the first 1-2-3-4 letters to only one of an official name
-# return the official name
-	def return_official_team_name(entry)
-		case entry.downcase 
 
 
-
-			when /^alb/
-				"Albanie"
-			when /^bel/
-				"Belgie"
-			when /^den/
-				"Denemarken"
-			when /^dui/
-				"Duitsland"
-			when /^en/
-				"Engeland"
-			when /^fr/
-				"Frankrijk"
-			when /^geo/
-				"Georgie"
-			when /^hon/
-				"Hongarije"
-			when /^ita/
-				"Italie"
-			when /^kro/
-				"Kroatie"
-			when /^ned/
-				"Nederland"
-			when /^oek|^ukr/
-				"Oekraine"
-			when /^oos|^oss/
-				"Oostenrijk"
-			when /^pol/
-				"Polen"
-			when /^por/
-				"Portugal"
-			when /^roe/
-				"Roemenie"
-			when /^sch/
-				"Schotland"
-			when /^ser/
-				"Servie"
-			when /^slov/
-				"Slovenie"
-			when /^slow/
-				"Slowakije"
-			when /^spa/
-				"Spanje"
-			when /^tje|^tsj/
-				"Tjechie"
-			when /^tur/
-				"Turkije"
-			when /^zwi/
-				"Zwitserland"
-
-		end
-	end
 
 end
 
 
-# first find all player-entrys, stripped, downcased and uniq as returned by method test_topscorer or test_topplayer
-# list the 24 official player-names from the database
-# try to match each entry by the first 1-2-3-4 letters to only one of an official name
-# return the official name
-
-	def return_official_player_name(entry)
-		case entry
-			when /bell/
-				"bellingham"
-			when /depa|memp/
-				"depay"
-			when /dijk/
-			 	"virgil van dijk"
-			when /dolb/
-			 	"kasper dolberg"
-			when /fern/
-				 "bruno fernandez"
-			when /fode/
-			 	"phil foden"
-			when /frim/
-			 	"frimpong"
-			when /full/
-			 	"fullkrug"
-			when /have/
-			 	"havertz"
-			when /kane/
-			 	"harry kane"
-			when /kroo/
-			 	"kroos"
-			when /luka/
-			 	"lukaku"
-			when /mbap|nbap|m'bap/
-			 	"killian mbappe"
-			when /rona/
-			 	"ronaldo"
-			when /saka/
-			 	"bukayo saka"
-			when /simo/
-			 	"simons"
-			when /wirt/
-				 "florian wirtz"
-
-		end
-	end
 
 
 

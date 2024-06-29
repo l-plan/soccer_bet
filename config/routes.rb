@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       end
   end
 
+
   resources :teams do
        member  do
         get :calculate_winner
@@ -54,9 +55,21 @@ Rails.application.routes.draw do
         post :update_many_winners
         get :edit_many_rankings
         post :update_many_rankings
+
+
+        get :calculate_eightfinalists
+        get :reset_eightfinalists
       end    
   end
 
+  resources :poule_rankings, only: :index do
+      collection do
+        get :edit_many
+        post :update_many
+        get :calculate_rankings
+        get :reset_rankings
+      end   
+  end
 
   namespace :bet do
     resources :teams

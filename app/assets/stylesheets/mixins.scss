@@ -1,0 +1,6 @@
+@mixin borders($size, $colour) {
+  border: $size solid $colour;
+  margin-top: 15px;
+  border-radius: 15px  15px;
+  padding: 1rem ;
+}

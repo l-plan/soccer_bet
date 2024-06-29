@@ -25,6 +25,8 @@ module Pdf::ParticipantHelper
 
 		print_redcard(participant)
 
+		print_poule_ranking(participant)
+
 		h 50
 
 		print_score(participant)
@@ -49,6 +51,18 @@ module Pdf::ParticipantHelper
 		pdf.table( arr, :column_widths => [60,10,60,10, 25, 10, 25, 25], :cell_style=>cellstyle , position: 0) do
 			column(7).style :align => :right
 			rows([0,7,14,21,28,35,42]).style :font_style=> :bold	
+		end
+
+	end
+
+	def print_poule_ranking(participant)
+		h 100
+		arr = poule_ranking_array(participant)
+	
+		pdf.table( arr, :column_widths => [100, 25, 25, 25], :cell_style=>cellstyle , position: 0) do
+			# column(2).style :align => :right
+			column(0).style :font_style=> :bold
+			row(-1).style :font_style=> :bold
 		end
 
 	end
@@ -136,7 +150,8 @@ module Pdf::ParticipantHelper
 
 		pdf.table( arr, :column_widths => [80, 80, 25], :cell_style=>cellstyle , position: 300) do
 			column(2).style :align => :right
-			column(0).style :font_style=> :bold	
+			column(2).style :font_style=> :bold	
+
 		end
 	end
 

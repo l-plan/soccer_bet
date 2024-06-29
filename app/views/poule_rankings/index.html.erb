@@ -1,0 +1,54 @@
+<div class='row'>
+<%@poules.sort.each do |poule, teams|%>
+
+
+	<div class='col-4'>
+	<div class='row'>
+		<div class='col-12'>
+			<%="poule #{poule.upcase}"%>
+		</div>
+	</div>
+	<div class='row'>&nbsp;</div>
+
+	<%teams.sort_by{|x| x.poule_rank}.each do |team|%>
+
+		<div class='row'>
+			<div class='col-1'>
+				<%=team.poule_rank%>
+			</div>
+
+			<div class='col-2'>
+				<%=team.name%>
+			</div>
+		</div>
+
+
+
+	<%end%>	
+	<div class='row'>&nbsp;</div>		
+	</div>
+
+
+
+
+
+<%end%>
+</div>
+
+  <div class='bottom-links'>
+    <div class="row">
+
+      <div id="edit-link" class="col-4">
+        <%=link_to 'reset ranking scores', reset_rankings_poule_rankings_path %>
+      </div>
+
+      <div id="edit-link" class="col-4">
+        <%=link_to 'calculate ranking scores', calculate_rankings_poule_rankings_path %>
+      </div>
+
+      <div id="add-link" class="col-4 text-end link">
+          <%=link_to 'edit poule ranking', edit_many_poule_rankings_path %>
+      </div>
+
+    </div>
+  </div>

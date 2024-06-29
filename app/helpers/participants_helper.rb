@@ -61,6 +61,27 @@ module ParticipantsHelper
 
 	end
 
+	def poule_ranking_array(participant)
+		arr = [["poule-rankings", nil, nil, nil]]
+		# eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}.sort_by{|x| x.team.name}
+		poule_ranking = participant.teams.select{|x| x.stage=="poule_score"}.group_by{|x| x.team.poule}
+
+		poule_ranking.each do |k,v|
+			arr << [k,nil,nil,nil]
+			v.sort_by{|x| x.team.poule_rank}.each do |team|
+				arr << [team.team.name, team.team.poule_rank.to_s, "(#{team.poule_rank})", team.score.to_s]
+			end
+			arr << ['bonus', nil, nil,participant.teams.select{|x| x.stage=="poule_bonus" and x.poule == k }[0].score.to_s]
+		end
+
+
+
+
+
+		arr << ['totaal score ranking', nil,nil ,participant.teams.select{|x| x.stage=='poule_score' or x.stage=='poule_bonus'}.map(&:score).compact.sum]
+		
+	end
+
 	def eigthfinalists_array(participant)
 		arr = []
 		eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}.sort_by{|x| x.team.name}
@@ -137,7 +158,7 @@ module ParticipantsHelper
 	def redcard_array(participant)
 		arr = []
 		team = participant.teams.find{|x| x.stage=="redcard"}
-		arr << ["redcard",team.team.name, team.score.to_s]
+		arr << ["redcard",team&.team&.name, team&.score&.to_s]
 
 	end
 

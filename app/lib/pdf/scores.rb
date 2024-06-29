@@ -19,11 +19,13 @@ class Pdf::Scores
 
 
 	def print_header
-		pdf.text "freeks poule bijgewerkt t/m #{nldt(Time.now)}"
+		h -5
+		pdf.text "freeks poule bijgewerkt t/m #{nldt(Time.now)}", :size => 8
 
-		h 20
-		arr = [%w(rank name games eightfinal quarterfinal semifinal finale winner redcard topplayer topscorer total)]
-		pdf.table( arr, :column_widths => [50,100,30,30,30,30,30, 30, 30, 30, 30, 30], :cell_style=> vertical_style) 
+		h 1
+		arr = [%w(rank name games  ranking bonus eightfinal quarterfinal semifinal finale winner redcard topplayer topscorer total)]
+		# pdf.table( arr, :column_widths => [50,100,30,30,30,30,30, 30, 30,30,30, 30, 30, 30], :cell_style=> vertical_style) 
+		pdf.table( arr, :column_widths => [50,100,25,25,25,25,25, 25, 25,25,25, 25, 25, 30], :cell_style=> vertical_style) 
 	end
 
 
@@ -41,23 +43,27 @@ class Pdf::Scores
 			(score == prev) ? print_rank = "" : print_rank = rank
 
 			g = part.games.map(&:score).compact.sum
+			
+			pr = part.teams.select{|x| x.stage == 'poule_score'}.map(&:score).compact.sum
+			pb = part.teams.select{|x| x.stage == 'poule_bonus'}.map(&:score).compact.sum
 			e = part.teams.select{|x| x.stage == 'eightfinal'}.map(&:score).compact.sum
 			q = part.teams.select{|x| x.stage == 'quarterfinal'}.map(&:score).compact.sum
 			s = part.teams.select{|x| x.stage == 'semifinal'}.map(&:score).compact.sum
 			f = part.teams.select{|x| x.stage == 'finale'}.map(&:score).compact.sum
 			w = part.teams.select{|x| x.stage == 'winner'}.map(&:score).compact.sum
+			
 			r = part.teams.select{|x| x.stage == 'redcard'}.map(&:score).compact.sum
 			tp = part.players.select{|x| x.stage == 'topplayer'}.map(&:score).compact.sum
 			ts = part.players.select{|x| x.stage == 'topscorer'}.map(&:score).compact.sum
 
-			arr << [print_rank, part.name, g,e,q,s,f,w,r,tp, ts, score ]
+			arr << [print_rank, part.name, g,pr, pb,e,q,s,f,w, r,tp, ts, score ]
 
 			prev = score
 
 		end
 
 
-		pdf.table( arr, :column_widths => [50,100,30,30,30,30,30, 30, 30, 30, 30, 30], :cell_style=>cellstyle )  do
+		pdf.table( arr, :column_widths => [50,100,25,25,25,25,25, 25, 25,25,25, 25, 25, 30], :cell_style=>cellstyle )  do
 			# row(0).style :rotate => 90, :height=> 100, :valign => :bottom
 		end
 

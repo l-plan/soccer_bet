@@ -19,5 +19,12 @@ module ApplicationHelper
     def dayt(datetime)
       datetime.strftime( '%a %d %b  %H:%M') if datetime
     end
-    
+
+
+    def check?(value)
+      val = "-"
+      val = "V" if value==true
+      val
+    end
+        
 end

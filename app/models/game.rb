@@ -45,6 +45,13 @@ class Game < ApplicationRecord
 		end
 	end
 
+
+	def reset_pool
+		games.each do |bet|
+			bet.update_attribute(:score, nil)
+		end
+	end
+
 	def self.calculate_stage_scores(stage)
 		if stage == "pool"
 			self.calculate_pool_scores
@@ -62,11 +69,17 @@ class Game < ApplicationRecord
 	end
 
 
-	def self.calculate_pool_scores
-		self.pool.each do |game|
-			game.calculate_pool
-		end
-	end
+	# def self.calculate_pool_scores
+	# 	self.pool.each do |game|
+	# 		game.calculate_pool
+	# 	end
+	# end
+
+	# def self.reset_pool_scores
+	# 	self.pool.each do |game|
+	# 		game.calculate_pool
+	# 	end
+	# end
 
 	def self.calculate_team_scores(stage)
 		self.send(stage).each do |game|
@@ -186,6 +199,22 @@ class Game < ApplicationRecord
 		else
 			return unless (home_id or away_id)
 			teams.map(&:score).compact.sum
+		end
+
+	end
+
+	class << self
+
+		def calculate_pool_scores
+			pool.each do |game|
+				game.calculate_pool
+			end
+		end
+
+		def reset_pool_scores
+			pool.each do |game|
+				game.reset_pool
+			end
 		end
 
 	end

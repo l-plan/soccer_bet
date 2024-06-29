@@ -1,0 +1,10 @@
+<div class='row'>
+  <div class='col-1'><%=nlt game.game.date%></div>
+  <div class='col-1'><%=game.game.home.name%></div>
+  <div class='col-1 text-center'>-</div>
+  <div class='col-1'><%=game.game.away.name%></div>
+  <div class='col-1 text-center'><%=game.game.score_home%> - <%=game.game.score_away%> </div>
+  <div class='col-1 text-center'>(<%=game.home%> - <%=game.away%>)</div>
+  <div class='col-1'>&nbsp;</div>
+  <div class='col-1 text-center'><%=game.score || "-"%></div>
+</div>
