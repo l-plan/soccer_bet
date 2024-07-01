@@ -63,19 +63,16 @@ class TeamsController < ApplicationController
 
   def update_many_winners
 
-    if Team.winner
-      Team.winner.reset_winner_scores
-      Team.winner.update_attribute(:winner, nil)
+    Team.winners.each{|x| x.update_attribute(:winner, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:winner, true)
+      end
     end
-
-    unless params[:id].blank?
-      @winner = Team.find(params[:id])
-      @winner.update_attribute(:winner, true)
       
-      @winner.winners.each{|x| x.update_attribute(:score, 5)}
-    end
-    
-    redirect_to games_url
+    redirect_to teams_url
   end
 
   def edit_many_redcards
@@ -83,20 +80,16 @@ class TeamsController < ApplicationController
   end
 
   def update_many_redcards
-
-    if Team.redcard
-      Team.redcard.reset_redcard_scores
-      Team.redcard.update_attribute(:red, nil)
+    Team.redcards.each{|x| x.update_attribute(:red, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:red, true)
+      end
     end
-
-    unless params[:id].blank?
-      @redcard = Team.find(params[:id])
-      @redcard.update_attribute(:red, true)
       
-      @redcard.redcards.each{|x| x.update_attribute(:score, 5)}
-    end
-    
-    redirect_to games_url
+    redirect_to teams_url
   end
 
  
@@ -109,6 +102,6 @@ class TeamsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def team_params
-      params.require(:team).permit(:name)
+      params.require(:team).permit(:name, team_ids: [])
     end
 end

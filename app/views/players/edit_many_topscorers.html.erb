@@ -1,14 +1,41 @@
-<%= form_with( url: {action: :update_many_topscorers}, method: :post, local: true) do  |f| %>
+<%= bootstrap_form_tag url: update_many_topscorers_players_path do |f| %>
 
-<p>
-topscorer
-</p>
+	<div class='row'>
+		<div class='col-2'>
+			name
+		</div>
 
-<p>
-<%= f.collection_select :id, Player.order(:name), :id, :name, include_blank: "choose topscorer" %>
-</p>
+		<div class='col-2 text-center'>
+			topscorer
+		</div>
+	</div>		
 
-<p>
-<%=f.submit%>
-</p>
-<%end%>
+
+	<%Player.unscoped.each do |player|%>
+	<div class='row'>
+		<div class='col-2'>
+			<%=player.name%>
+		</div>
+
+		<div class='col-2 text-center'>
+			<%= check_box_tag "player_ids[]", player.id , player.top%> 
+		</div>
+	</div>		  			  		
+
+
+	<%end%>
+
+	<div class='row'>
+		<div class='col-2'>
+			&nbsp;
+		</div>
+
+		<div class='col-2 text-center'>
+			<%#= f.submit , 'pas aan' ,class: 'btn btn-primary'%>
+			<%= f.submit 'kies topscorer', :class => 'btn btn-primary' %>
+			
+		</div>
+	</div>
+
+  
+<% end %>

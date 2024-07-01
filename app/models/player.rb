@@ -7,5 +7,7 @@ class Player < ApplicationRecord
 	scope :topplayer, -> {where(best: true)}
 	scope :topscorer, -> {where(top: true)}
 
+	scope :ordered, -> {order(:name)}
+
 
 end

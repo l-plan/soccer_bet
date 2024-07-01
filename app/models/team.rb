@@ -15,7 +15,10 @@ class Team < ApplicationRecord
 
 	scope :eightfinal, -> {where(fin16: true)}
 	scope :quarterfinal, -> {where(fin8: true)}
-	scope :poule_rank, -> {where.not(poule_rank: true)}
+	# scope :poule_rank, -> {where.not(poule_rank: true)}
+
+	scope :winners, -> {where(winner: true)}
+	scope :redcards, -> {where(red: true)}
 
 
 

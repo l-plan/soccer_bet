@@ -16,7 +16,15 @@ Rails.application.routes.draw do
 
   resources :participants
 
-  resources :players 
+  resources :players do
+    collection do
+      get :edit_many_topplayers
+      post :update_many_topplayers
+      get :edit_many_topscorers
+      post :update_many_topscorers
+
+    end
+  end
 
   resources :games
 

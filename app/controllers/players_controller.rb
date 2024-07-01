@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: %i[ show edit update destroy calculate_topplayer reset_topplayer_scores calculate_topscorer reset_topscorer_scores]
+  before_action :set_player, only: %i[ show edit update destroy]
 
   # GET /players or /players.json
   def index
@@ -62,6 +62,8 @@ class PlayersController < ApplicationController
 
   def update_many_topscorers
 
+
+
     if Player.topscorer
       # Player.topscorer.reset_topscorer_scores
       # Player.topscorer.update_attribute(:top, nil)
@@ -82,21 +84,36 @@ class PlayersController < ApplicationController
   end
 
   def update_many_topplayers
-    if Player.topplayer
-      # Player.topplayer.reset_topplayer_scores
-      # Player.topplayer.update_attribute(:best, nil)
-    end
 
-    unless params[:id].blank?
-      @topplayer = Player.find(params[:id])
-      @topplayer.update_attribute(:best, true)
-      
-      @topplayer.topplayers.each{|x| x.update_attribute(:score, 5)}
+    Player.topplayer.each{|x| x.update_attribute(:best, nil)}
+    ids = params[:player_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Player.find(id).update_attribute(:best, true)
+      end
     end
-    
-    redirect_to games_url
+      
+    redirect_to players_url
   end
 
+  def edit_many_topscorers
+    @topscorers = Player.joins(:topscorers)
+  end
+
+  def update_many_topscorers
+
+    Player.topscorer.each{|x| x.update_attribute(:top, nil)}
+    ids = params[:player_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Player.find(id).update_attribute(:top, true)
+      end
+    end
+      
+    redirect_to players_url
+  end
 
 
   private
@@ -107,6 +124,6 @@ class PlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def player_params
-      params.require(:player).permit(:name, :initials, :team_id)
+      params.require(:player).permit(:name, :initials, :team_id, :top, :best, player_ids: [])
     end
 end

@@ -1,14 +1,41 @@
-<%= form_with( url: {action: :update_many_winners}, method: :post, local: true) do  |f| %>
+<%= bootstrap_form_tag url: update_many_winners_teams_path do |f| %>
 
-<p>
-redcard
-</p>
+	<div class='row'>
+		<div class='col-2'>
+			name
+		</div>
 
-<p>
-<%= f.collection_select :id, Team.order(:name), :id, :name, include_blank: "choose winner" %>
-</p>
+		<div class='col-2 text-center'>
+			winner
+		</div>
+	</div>		
 
-<p>
-<%=f.submit%>
-</p>
-<%end%>
+
+	<%Team.unscoped.each do |team|%>
+	<div class='row'>
+		<div class='col-2'>
+			<%=team.name%>
+		</div>
+
+		<div class='col-2 text-center'>
+			<%= check_box_tag "team_ids[]", team.id , team.winner%> 
+		</div>
+	</div>		  			  		
+
+
+	<%end%>
+
+	<div class='row'>
+		<div class='col-2'>
+			&nbsp;
+		</div>
+
+		<div class='col-2 text-center'>
+			<%#= f.submit , 'pas aan' ,class: 'btn btn-primary'%>
+			<%= f.submit 'kies winner', :class => 'btn btn-primary' %>
+			
+		</div>
+	</div>
+
+  
+<% end %>

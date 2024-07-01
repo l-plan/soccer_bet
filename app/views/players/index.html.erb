@@ -1,31 +1,64 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Players</h1>
+<div class='row>'>
+  <div class='col-12'>
+    <h1>Players</h1>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Initials</th>
-      <th>Team</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
+<div class='row'>
+  <div class='col-8'>
+
+    <div class='row'>
+      <div class='col-2'>
+        naam
+      </div>
+      <div class='col-2 text-center'>
+        top-scorer
+      </div>
+
+      <div class='col-2 text-center'>
+        top-speler
+      </div>
+
+
+      <div class='col-6'>
+        &nbsp;
+      </div>
+
+    </div>
+
+
     <% @players.each do |player| %>
-      <tr>
-        <td><%= player.name %></td>
-        <td><%= player.initials %></td>
-        <td><%= player.team_id %></td>
-        <td><%= link_to 'Show', player %></td>
-        <td><%= link_to 'Edit', edit_player_path(player) %></td>
-        <td><%= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <%=render 'player', player: player%>
+    <%end%>
+  </div>
 
-<br>
+  <div class='col-4'>
 
-<%= link_to 'New Player', new_player_path %>
+    <div class='row'>
+      <div class='col-12 text-center'>
+        <%= link_to 'wijzig top-players', edit_many_topplayers_players_path,  class: "btn btn-primary btn-xl"%>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='col-12'>
+        &nbsp;
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='col-12 text-center'>
+        <%= link_to 'wijzig top-scorers', edit_many_topscorers_players_path,  class: "btn btn-primary btn-xl"%>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
