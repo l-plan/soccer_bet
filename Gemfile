@@ -52,6 +52,10 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "capistrano", "~> 3.17", require: false
+  gem "capistrano-rails", "~> 1.6", require: false
+  gem 'rvm1-capistrano3', require: false
+  gem 'capistrano-passenger'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -83,8 +87,6 @@ gem 'devise'
 gem "bootstrap_form", "~> 5.4"
 
 gem 'spreadsheet'
-
-
 
 
 
