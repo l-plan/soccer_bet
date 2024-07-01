@@ -20,26 +20,6 @@ class GamesController < ApplicationController
   def edit
   end
 
-  def calculate
-    @game.calculate
-    redirect_to games_url
-  end
-
-
-  def reset_scores
-    @game.reset_scores
-    redirect_to games_url
-  end
-
-  def calculate_stage_scores
-    Game.calculate_stage_scores(params[:stage])
-    redirect_to games_url
-  end
-
-  def reset_stage_scores
-    Game.reset_stage_scores(params[:stage])
-    redirect_to games_url
-  end
 
   # POST /games or /games.json
   def create

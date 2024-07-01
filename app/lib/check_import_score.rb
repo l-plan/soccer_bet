@@ -92,13 +92,14 @@ class CheckImportScore
 			next if name =~/Deelnemers/
 			participant = Participant.find_by(name: sheet.cell(3,2) )
 
-			bonuses = participant.poule_bonuses.map{|x| [x.poule, x.score]}
+			bonuses = participant.poule_bonuses.map{|x| [x.poule, x.score||0]}
 
 			freek = sheet.column(13)[11,42].in_groups_of(7)
 
 			result = %w(a b c d e f).each_with_index.map{|x,i|[x, freek[i][4,3].compact.sum] }
 
 			result.each do |res|
+				# binding.b
 				poule = res[0]
 				freek = res[1]
 				score = bonuses.find{|x| x[0]==poule}[1]

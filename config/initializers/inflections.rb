@@ -15,5 +15,5 @@
 #   inflect.acronym "RESTful"
 # end
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.uncountable %w( navigation )
+  inflect.uncountable %w( navigation home )
 end

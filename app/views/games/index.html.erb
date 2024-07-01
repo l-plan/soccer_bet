@@ -32,10 +32,10 @@
         <td align="center"><%= game.score_home %></td>
         <td align="center"><%= game.score_away %></td>
         <td align="center" ><%= link_to 'edit', edit_game_path(game) %></td>
-        <td align="center" ><%= link_to 'calculate', calculate_game_path(game) %></td>
+        <td align="center" >&nbsp;</td>
         
         <td align="center" ><%= game.score %></td>
-        <td align="center" ><%= link_to 'reset_scores', reset_scores_game_path(game) %></td>
+        <td align="center" >&nbsp;</td>
 
         
         
@@ -44,10 +44,9 @@
 
 <tr> 
   <td colspan="2"></td>
-  <td><%=link_to "calculate #{Game.stages.invert[stage]} games" ,calculate_stage_scores_games_path(stage: Game.stages.invert[stage])%></td>
-  <td><%=link_to "reset #{Game.stages.invert[stage]} games",reset_stage_scores_games_path(stage: Game.stages.invert[stage]) %></td>
-  <td colspan="4"></td>
-  <td><%=Game.stage_scores( Game.stages.invert[stage] )%></td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><%="Game.stage_scores( Game.stages.invert[stage] )"%></td>
   <td></td>
 </tr>
     <%end%>
@@ -60,15 +59,15 @@
 
               <td colspan="4"><%= Team.winner.name%></td>
               <td align="center"><%= link_to 'edit',edit_many_winners_teams_path%></td>
-              <td align="center"><%= link_to 'calculate', calculate_winner_team_path(Team.winner) %></td>
+              <td align="center">&nbsp;</td>
               
               <td align="center"><%= Team.winner.winners.map(&:score).compact.sum %></td>
-              <td align="center"><%= link_to 'reset_scores', reset_winner_scores_team_path(Team.winner)%></td>
+              <td align="center">&nbsp;</td>
 
               
             <%else%>
               <td colspan="4">nnb</td>
-              <td align="center"><%= link_to 'edit',edit_many_winners_teams_path%></td>
+              <td align="center"></td>
               <td></td>
               <td align="center">-</td>
               <td></td>
@@ -81,11 +80,11 @@
           <%if Team.redcard %>
 
               <td colspan="4"><%= Team.redcard.name%></td>
-              <td align="center"><%= link_to 'edit', edit_many_redcards_teams_path%></td>
-              <td align="center"><%= link_to 'calculate', calculate_redcard_team_path(Team.redcard) %></td>
+              <td align="center"></td>
+              <td align="center">&nbsp;</td>
               
               <td align="center"><%= Team.redcard.redcards.map(&:score).compact.sum %></td>
-              <td align="center"><%= link_to 'reset_scores', reset_redcard_scores_team_path(Team.redcard)%></td>
+              <td align="center">&nbsp;</td>
 
               
             <%else%>
@@ -103,15 +102,15 @@
 
               <td colspan="4"><%= Player.topplayer.name%></td>
               <td align="center"><%= link_to 'edit', edit_many_topplayers_players_path %></td>
-              <td align="center"><%= link_to 'calculate', calculate_topplayer_player_path(Player.topplayer) %></td>
+              <td align="center">&nbsp;</td>
               
               <td align="center"><%#= Player.topplayer.topplayers.map(&:score).compact.sum %></td>
-              <td align="center"><%= link_to 'reset_scores', reset_topplayer_scores_player_path(Player.topplayer)%></td>
+              <td align="center">&nbsp;</td>
 
               
             <%else%>
               <td colspan="4">nnb</td>
-              <td align="center"><%= link_to 'edit', edit_many_topplayers_players_path %></td>
+              <td align="center"></td>
               <td></td>
               <td align="center">-</td>
               <td></td>
@@ -123,16 +122,16 @@
           <%if Player.topscorer.any? %>
 
               <td colspan="4"><%= Player.topscorer.name%></td>
-              <td align="center"><%= link_to 'edit', edit_many_topscorers_players_path %></td>
-              <td align="center"><%= link_to 'calculate', calculate_topscorer_player_path(Player.topscorer) %></td>
+              <td align="center"></td>
+              <td align="center">&nbsp;</td>
               
               <td align="center"><%= Player.topscorer.topscorers.map(&:score).compact.sum %></td>
-              <td align="center"><%= link_to 'reset_scores', reset_topscorer_scores_player_path(Player.topscorer)%></td>
+              <td align="center">&nbsp;</td>
 
               
             <%else%>
               <td colspan="4">nnb</td>
-              <td align="center"><%= link_to 'edit', edit_many_topscorers_players_path%></td>
+              <td align="center">&nbsp;</td>
               <td></td>
               <td align="center">-</td>
               <td></td>

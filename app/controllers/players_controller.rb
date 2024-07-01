@@ -63,8 +63,8 @@ class PlayersController < ApplicationController
   def update_many_topscorers
 
     if Player.topscorer
-      Player.topscorer.reset_topscorer_scores
-      Player.topscorer.update_attribute(:top, nil)
+      # Player.topscorer.reset_topscorer_scores
+      # Player.topscorer.update_attribute(:top, nil)
     end
 
     unless params[:id].blank?
@@ -83,8 +83,8 @@ class PlayersController < ApplicationController
 
   def update_many_topplayers
     if Player.topplayer
-      Player.topplayer.reset_topplayer_scores
-      Player.topplayer.update_attribute(:best, nil)
+      # Player.topplayer.reset_topplayer_scores
+      # Player.topplayer.update_attribute(:best, nil)
     end
 
     unless params[:id].blank?
@@ -97,27 +97,7 @@ class PlayersController < ApplicationController
     redirect_to games_url
   end
 
-  def calculate_topplayer
-    @player.calculate_topplayer
-    redirect_to games_url
-  end
 
-
-  def reset_topplayer_scores
-    @player.reset_topplayer_scores
-    redirect_to games_url
-  end
-
-  def calculate_topscorer
-    @player.calculate_topscorer
-    redirect_to games_url
-  end
-
-
-  def reset_topscorer_scores
-    @player.reset_topscorer_scores
-    redirect_to games_url
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

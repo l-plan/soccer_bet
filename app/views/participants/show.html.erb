@@ -112,14 +112,19 @@
 
 
 
-<% redcard = @participant.teams.redcard.first%>
+
 
 
   <div class='row t-area'>
     <div class='col-5'> eerste rode kaart </div>
-    <div class='col-6'> <%=redcard ? redcard.team.name : "n.v.t."%>  </div>
-    <div class='col-1 text-center'><%=redcard ? redcard.score : 0 %> </div>
+    <% @participant.teams.redcard.each do |team|%>
+
+        <div class='col-6'> <%=team&.team&.name%></div>
+        <div class='col-1 text-center'><%=team&.score|| '-'%> </div>
+
+    <%end%>
   </div>
+
 
 
 <%@participant.players.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, players|%>
@@ -129,8 +134,8 @@
 
       <div class='row t-area'>
         <div class='col-5'> <%= Bet::Player.stages.invert[stage]%></div>
-        <div class='col-6'> <%=player.player.name%> </div>
-        <div class='col-1 text-center'><%=player.score || "-"%>  </div>
+        <div class='col-6'> <%=player&.player&.name%> </div>
+        <div class='col-1 text-center'><%=player&.score || "-"%>  </div>
       </div>
 
     <%end%>

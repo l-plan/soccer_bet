@@ -1,73 +1,42 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  # devise_for :users do
-  #   get '/users/sign_out' => 'devise/sessions#destroy'
-  # end
 
-  # resource :navigation, only: [:show, :destroy]
-  resources :scores
+  resources :home
+  
+  resources :calculations do
+      collection do
+        post :calculate_stage
+        post :reset_stage
+      end
+  end
+
+
+  resources :scores, only: :index
 
   resources :participants
 
-  resources :players do
-       member  do
-        get :calculate_topplayer
-        get :calculate_topscorer
-        get :reset_topplayer_scores
-        get :reset_topscorer_scores
-      end
+  resources :players 
 
-      collection do
-        get :edit_many_topplayers
-        post :update_many_topplayers
-        get :edit_many_topscorers
-        post :update_many_topscorers
-      end
-        
-  end
-
-  resources :games do 
-      member  do
-        get :calculate
-        get :reset_scores
-      end  
-
-      collection do
-        get :calculate_stage_scores
-        get :reset_stage_scores
-      end
-  end
+  resources :games
 
 
   resources :teams do
-       member  do
-        get :calculate_winner
-        get :calculate_redcard
-        get :reset_winner_scores
-        get :reset_redcard_scores
-      end
-
-      collection do
-        get :edit_many_redcards
-        post :update_many_redcards
-        get :edit_many_winners
-        post :update_many_winners
-        get :edit_many_rankings
-        post :update_many_rankings
-
-
-        get :calculate_eightfinalists
-        get :reset_eightfinalists
-      end    
+    
+    collection do
+      get :edit_many_redcards
+      post :update_many_redcards
+      get :edit_many_winners
+      post :update_many_winners
+    end   
   end
 
   resources :poule_rankings, only: :index do
       collection do
         get :edit_many
         post :update_many
-        get :calculate_rankings
-        get :reset_rankings
+        # get :calculate_rankings
+        # get :reset_rankings
       end   
   end
 
@@ -77,6 +46,6 @@ Rails.application.routes.draw do
     resources :games
   end
 
-  root "scores#index"
+  root "home#index"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
