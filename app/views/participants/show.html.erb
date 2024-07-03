@@ -1,5 +1,12 @@
 <p id="notice"><%= notice %></p>
-<p><%=link_to "pdf", format: :pdf%></p>
+
+
+<div class='row'>
+  <div class='col-6 text-center'><%#=link_to "download",download_participant_path(@participant.id)%></div>
+  <div class='col-6 text-center'><%=link_to "view pdf", format: :pdf%></div>
+</div>
+
+
 <p>
   <strong>Name:</strong>
   <%= @participant.name %>
@@ -141,6 +148,17 @@
     <%end%>
 
 <%end%>
+
+  <div class='row t-area'>
+    <div class='col-5'> europees kamoioen </div>
+    <% @participant.teams.winner.each do |team|%>
+
+        <div class='col-6'> <%=team&.team&.name%></div>
+        <div class='col-1 text-center'><%=team&.score|| '-'%> </div>
+
+    <%end%>
+  </div>
+
 
 <div class='row t-area'>
   <div class='col-11'> totaal score </div>

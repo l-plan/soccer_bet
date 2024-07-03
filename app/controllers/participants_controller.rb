@@ -1,5 +1,5 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: %i[ show edit update destroy ]
+  before_action :set_participant, only: %i[ show download edit update destroy ]
 
   # GET /participants or /participants.json
   def index
@@ -16,6 +16,13 @@ class ParticipantsController < ApplicationController
         }
         format.html
       end
+  end
+
+  def download
+          pdf = Pdf::Participant.new(@participant)
+
+          send_data pdf.pdf.render, :filename=>"#{@participant.name.gsub(' ', '_')}.pdf",:disposition => 'attachment'
+
   end
 
   # GET /participants/1 or /participants/1.json

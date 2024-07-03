@@ -19,8 +19,15 @@ class Pdf::Scores
 
 
 	def print_header
-		h -5
-		pdf.text "freeks poule bijgewerkt t/m #{nldt(Time.now)}", :size => 8
+		h -20
+		arr = [["freeks poule bijgewerkt t/m #{nldt(Time.now)}","<color rgb='0000FF'><u><link href='/scores/download'>download</link></u></color>","<color rgb='0000FF'><u><link href='/scores'>close pdf</link></u></color>"]]
+		pdf.table( arr, :column_widths =>[275, 80, 80], :cell_style=>cellstyle, position: 0 ) do
+			column(0).style :align => :left 
+			column(1).style :align => :left, :inline_format => true
+			column(2).style :align => :right, :inline_format => true
+		end
+
+		
 
 		h 1
 		arr = [%w(rank name games  ranking bonus eightfinal quarterfinal semifinal finale winner redcard topplayer topscorer total)]

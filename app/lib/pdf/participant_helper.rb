@@ -36,8 +36,10 @@ module Pdf::ParticipantHelper
 
 		arr = participant_header_array(participant)
 
-		pdf.table( arr, :column_widths => [100, 125], :cell_style=>cellstyle , position: 0) do
+		pdf.table( arr, :column_widths => [100, 125, 125, 125], :cell_style=>cellstyle , position: 0) do
 			column(1).style :align => :right 
+			column(2).style :align => :right, :inline_format => true
+			column(3).style :align => :right, :inline_format => true
 		end
 
 		h 20

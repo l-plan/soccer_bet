@@ -34,7 +34,7 @@ module ParticipantsHelper
 	def participant_header_array(participant)
 
 		arr = []
-		arr << ["bijgewerkt op", "#{printed_on}"]
+		arr << ["bijgewerkt op", "#{printed_on}", "<color rgb='0000FF'><u><link href='/participants/#{participant.id}/download'>download</link></u></color>", "<color rgb='0000FF'><u><link href='/participants/#{participant.id}'>close pdf</link></u></color>"]
 		arr << [ 'rank' ,rank.to_s]
 		arr << [ 'naam' ,participant.name]
 		arr << [ 'email',participant.email]

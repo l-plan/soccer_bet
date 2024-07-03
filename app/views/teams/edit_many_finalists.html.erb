@@ -1,4 +1,4 @@
-<%= bootstrap_form_tag url: update_many_redcards_teams_path do |f| %>
+<%= bootstrap_form_tag url: update_many_finalists_teams_path do |f| %>
 
 	<div class='row'>
 		<div class='col-2'>
@@ -6,7 +6,7 @@
 		</div>
 
 		<div class='col-2 text-center'>
-			redcard
+			final
 		</div>
 	</div>		
 
@@ -18,7 +18,7 @@
 		</div>
 
 		<div class='col-2 text-center'>
-			<%= check_box_tag "team_ids[]", team.id , team.red%> 
+			<%= check_box_tag "team_ids[]", team.id , team.fin2%> 
 		</div>
 	</div>		  			  		
 
@@ -32,7 +32,7 @@
 
 		<div class='col-2 text-center'>
 			<%#= f.submit , 'pas aan' ,class: 'btn btn-primary'%>
-			<%= f.submit 'kies redcard', :class => 'btn btn-primary' %>
+			<%= f.submit 'kies laatste 2', :class => 'btn btn-primary' %>
 			
 		</div>
 	</div>

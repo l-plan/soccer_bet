@@ -1,0 +1,80 @@
+<div class='row'>
+	<div class='col-1'>
+		<%=rank %>
+	</div>
+	<div class='col-2'>
+		<%=link_to part.name, participant_path(part.id)%>
+	</div>
+
+	<div class='col-1'>
+		<div class='row'>
+			<div class='col-6 text-center'>
+				<%=part.games.map(&:score).compact.sum %>
+			</div>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'poule_score'}.map(&:score).compact.sum %>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-1'>
+		<div class='row'>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'poule_bonus'}.map(&:score).compact.sum %> 
+			</div>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'eightfinal'}.map(&:score).compact.sum %>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-1'>
+		<div class='row'>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'quarterfinal'}.map(&:score).compact.sum %>
+			</div>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'semifinal'}.map(&:score).compact.sum %>
+			</div>
+		</div>
+	</div>
+
+
+	<div class='col-1'>
+		<div class='row'>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'finale'}.map(&:score).compact.sum %> </td>
+			</div>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'winner'}.map(&:score).compact.sum %>
+			</div>
+		</div>
+	</div>
+
+
+	<div class='col-1'>
+		<div class='row'>
+			<div class='col-6 text-center'>
+				<%=part.teams.select{|x| x.stage == 'redcard'}.map(&:score).compact.sum %>
+			</div>
+			<div class='col-6 text-center'>
+				<%=part.players.select{|x| x.stage == 'topplayer'}.map(&:score).compact.sum %>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-1'>
+		<div class='row'>
+			<div class='col-6 text-center'>
+				<%=part.players.select{|x| x.stage == 'topscorer'}.map(&:score).compact.sum %>
+			</div>
+			<div class='col-6 text-center'>
+				<%=score%>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+

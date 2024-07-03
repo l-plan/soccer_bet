@@ -23,17 +23,26 @@
         </li>
 
 
+          <li class="nav-item">
+            <%=link_to 'games', games_path, class: "nav-link active", 'aria-current': "page"%>
+          </li>
+
+
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%="games"%>
+            <%="knockout fase"%>
           </a>
           <ul class="dropdown-menu">
 
             <li><%=(link_to 'games', games_path, class: "dropdown-item" )%></li>
             <li><hr class="dropdown-divider"></li>
-            <li><%=(link_to 'topplayers', edit_many_redcards_teams_path, class: "dropdown-item" )%></li>
-            <li><%=(link_to 'topscorers', edit_many_winners_teams_path, class: "dropdown-item" )%></li>
+            <li><%=(link_to '8e finale', edit_many_eightfinalists_teams_path, class: "dropdown-item" )%></li>
+            <li><%=(link_to 'kwart finale', edit_many_quarterfinalists_teams_path, class: "dropdown-item" )%></li>
+            <li><%=(link_to 'halve finale', edit_many_semifinalists_teams_path, class: "dropdown-item" )%></li>
+            <li><%=(link_to 'finale', edit_many_finalists_teams_path, class: "dropdown-item" )%></li>
+            
+
 
             
 
@@ -43,40 +52,39 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%="teams"%>
+            <%="bonus"%>
           </a>
           <ul class="dropdown-menu">
 
             <li><%=(link_to 'teams', teams_path, class: "dropdown-item" )%></li>
             <li><hr class="dropdown-divider"></li>
-            <li><%=(link_to 'redcards', edit_many_redcards_teams_path, class: "dropdown-item" )%></li>
             <li><%=(link_to 'winner', edit_many_winners_teams_path, class: "dropdown-item" )%></li>
-
-            
-
-          </ul>
-        </li>
-
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%="players"%>
-          </a>
-          <ul class="dropdown-menu">
-
-            <li><%=(link_to 'players', players_path, class: "dropdown-item" )%></li>
-            <li><hr class="dropdown-divider"></li>
+            <li><%=(link_to 'redcards', edit_many_redcards_teams_path, class: "dropdown-item" )%></li>
             <li><%=(link_to 'topplayers', edit_many_topplayers_players_path, class: "dropdown-item" )%></li>
             <li><%=(link_to 'topscorers', edit_many_topscorers_players_path, class: "dropdown-item" )%></li>
-
             
 
           </ul>
         </li>
 
-        <li class="nav-item">
-          <%=link_to 'participants',participants_path, class: "nav-link active", 'aria-current': "page"%>
-        </li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <%=link_to 'players',players_path, class: "nav-link active", 'aria-current': "page"%>
+          </li>
+        </ul>
+
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <%=link_to 'teams',teams_path, class: "nav-link active", 'aria-current': "page"%>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <%=link_to 'participants',participants_path, class: "nav-link active", 'aria-current': "page"%>
+          </li>
+        </ul>
 
 
 

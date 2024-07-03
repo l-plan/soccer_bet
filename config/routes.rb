@@ -12,9 +12,17 @@ Rails.application.routes.draw do
   end
 
 
-  resources :scores, only: :index
+  resources :scores, only: :index do
+    collection do
+      get :download
+    end
+  end
 
-  resources :participants
+  resources :participants do
+    member do
+      get :download
+    end
+  end
 
   resources :players do
     collection do
@@ -34,7 +42,17 @@ Rails.application.routes.draw do
     collection do
       get :edit_many_redcards
       post :update_many_redcards
+
+      get :edit_many_eightfinalists
+      get :edit_many_quarterfinalists
+      get :edit_many_semifinalists
+      get :edit_many_finalists
       get :edit_many_winners
+
+      post :update_many_eightfinalists
+      post :update_many_quarterfinalists
+      post :update_many_semifinalists
+      post :update_many_finalists
       post :update_many_winners
     end   
   end
@@ -43,8 +61,6 @@ Rails.application.routes.draw do
       collection do
         get :edit_many
         post :update_many
-        # get :calculate_rankings
-        # get :reset_rankings
       end   
   end
 

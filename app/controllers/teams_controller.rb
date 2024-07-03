@@ -56,7 +56,76 @@ class TeamsController < ApplicationController
     end
   end
 
+  def edit_many_eightfinalists
+    @eightfinalists = Team.all
+  end
 
+  def update_many_eightfinalists
+    @teams= Team.unscoped
+    Team.eightfinalists.each{|x| x.update_attribute(:fin16, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:fin16, true)
+      end
+    end
+      
+    redirect_to teams_url
+  end
+
+  def edit_many_quarterfinalists
+    @teams = Team.eightfinalists
+  end
+
+  def update_many_quarterfinalists
+
+    Team.quarterfinalists.each{|x| x.update_attribute(:fin8, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:fin8, true)
+      end
+    end
+      
+    redirect_to teams_url
+  end
+  def edit_many_semifinalists
+    @teams = Team.quarterfinalists
+  end
+
+  def update_many_semifinalists
+
+    Team.semifinalists.each{|x| x.update_attribute(:fin4, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:fin4, true)
+      end
+    end
+      
+    redirect_to teams_url
+  end
+
+  def edit_many_finalists
+    @teams = Team.semfinalists
+  end
+
+  def update_many_finalists
+
+    Team.finalists.each{|x| x.update_attribute(:fin2, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:fin2, true)
+      end
+    end
+      
+    redirect_to teams_url
+  end
   def edit_many_winners
     @winners = Team.all
   end
