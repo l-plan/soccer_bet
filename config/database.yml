@@ -51,5 +51,4 @@ test:
 production:
   <<: *default
   database: soccer_bet_production
-  username: soccer_bet
-  password: <%= ENV["SOCCER_BET_DATABASE_PASSWORD"] %>
+
