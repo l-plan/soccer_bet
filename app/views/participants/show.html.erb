@@ -27,7 +27,7 @@
   </div>
 
   <%games.sort_by{|x| x.game.date}.each do |game|%>
-    <%=render 'games/game', game: game%>
+    <%=render 'games/participant_game', game: game%>
   <%end%>
 
 <%end%>

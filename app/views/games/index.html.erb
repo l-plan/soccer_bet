@@ -2,152 +2,23 @@
 
 <h1>Games</h1>
 
-<table>
-  <thead>
-    <tr align="left">
-      <th width="50px">Nr</th>
-      <th width="150px">Date</th>
-      <th width="200px">Home Team</th>
-      <th width="200px">Away Team</th>
-      <th width="50px" align="center">home</th>
-      <th width="50px" align="center">away</th>
-      <th width="100px" align="center">edit</th>
-      <th width="200px" colspan="3" align="center">scores</th>
 
-    </tr>
-  </thead>
-
-  <tbody>
   <%@games.each do |stage, games|%>
-    <tr align="left">
-      <th><%=Game.stages.invert[stage]%></th>
-    </tr>
-    <% games.sort_by{|x| x.date}.each do |game| %>
-      <tr>
-        <td><%= game.nr %></td>
+    <div class='row'>
+      <div class='col-12'>
+        <h2><%=Game.stages.invert[stage]%></h2>
+      </div>
+  </div>
 
-        <td><%= dayt game.date %></td>
-        <td><%= game.home&.name %></td>
-        <td><%= game.away&.name %></td>
-        <td align="center"><%= game.score_home %></td>
-        <td align="center"><%= game.score_away %></td>
-        <td align="center" ><%= link_to 'edit', edit_game_path(game) %></td>
-        <td align="center" >&nbsp;</td>
-        
-        <td align="center" ><%= game.score %></td>
-        <td align="center" >&nbsp;</td>
-
-        
-        
-      </tr>
+    <%games.each do |game|%>
+      <%=render 'games/game', game: game%>
     <% end %>
 
-<tr> 
-  <td colspan="2"></td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td><%="Game.stage_scores( Game.stages.invert[stage] )"%></td>
-  <td></td>
-</tr>
-    <%end%>
 
 
 
-        <tr>
-          <td colspan="3"> <b>winner</b></td>
-          <%if Team.winner %>
-
-              <td colspan="4"><%= Team.winner.name%></td>
-              <td align="center"><%= link_to 'edit',edit_many_winners_teams_path%></td>
-              <td align="center">&nbsp;</td>
-              
-              <td align="center"><%= Team.winner.winners.map(&:score).compact.sum %></td>
-              <td align="center">&nbsp;</td>
-
-              
-            <%else%>
-              <td colspan="4">nnb</td>
-              <td align="center"></td>
-              <td></td>
-              <td align="center">-</td>
-              <td></td>
-          <%end%>   
-        </tr>
-
-
-        <tr>
-          <td colspan="3"> <b>redcard</b></td>
-          <%if Team.redcard %>
-
-              <td colspan="4"><%= Team.redcard.name%></td>
-              <td align="center"></td>
-              <td align="center">&nbsp;</td>
-              
-              <td align="center"><%= Team.redcard.redcards.map(&:score).compact.sum %></td>
-              <td align="center">&nbsp;</td>
-
-              
-            <%else%>
-              <td colspan="4">nnb</td>
-              <td align="center"><%= link_to 'edit', edit_many_redcards_teams_path%></td>
-              <td></td>
-              <td align="center">-</td>
-              <td></td>
-          <%end%>   
-        </tr>
-
-        <tr>
-          <td colspan="3"> <b>topplayer</b></td>
-          <%if Player.topplayer.any? %>
-
-              <td colspan="4"><%= Player.topplayer.name%></td>
-              <td align="center"><%= link_to 'edit', edit_many_topplayers_players_path %></td>
-              <td align="center">&nbsp;</td>
-              
-              <td align="center"><%#= Player.topplayer.topplayers.map(&:score).compact.sum %></td>
-              <td align="center">&nbsp;</td>
-
-              
-            <%else%>
-              <td colspan="4">nnb</td>
-              <td align="center"></td>
-              <td></td>
-              <td align="center">-</td>
-              <td></td>
-          <%end%>   
-        </tr>
-
-        <tr>
-          <td colspan="3"> <b>topscorer</b></td>
-          <%if Player.topscorer.any? %>
-
-              <td colspan="4"><%= Player.topscorer.name%></td>
-              <td align="center"></td>
-              <td align="center">&nbsp;</td>
-              
-              <td align="center"><%= Player.topscorer.topscorers.map(&:score).compact.sum %></td>
-              <td align="center">&nbsp;</td>
-
-              
-            <%else%>
-              <td colspan="4">nnb</td>
-              <td align="center">&nbsp;</td>
-              <td></td>
-              <td align="center">-</td>
-              <td></td>
-          <%end%>   
-        </tr>
-
-  </tbody>
-</table>
+  <%end%>
 
 
 
 
-
-
-
-
-<br>
-
-<%= link_to 'New Game', new_game_path %>
