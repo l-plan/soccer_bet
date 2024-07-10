@@ -57,7 +57,7 @@ class TeamsController < ApplicationController
   end
 
   def edit_many_eightfinalists
-    @eightfinalists = Team.all
+    @teams = Team.all
   end
 
   def update_many_eightfinalists
@@ -110,7 +110,7 @@ class TeamsController < ApplicationController
   end
 
   def edit_many_finalists
-    @teams = Team.semfinalists
+    @teams = Team.semifinalists
   end
 
   def update_many_finalists

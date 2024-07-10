@@ -16,7 +16,7 @@ class Team < ApplicationRecord
 	scope :eightfinalists, -> {where(fin16: true)}
 	scope :quarterfinalists, -> {where(fin8: true)}
 	scope :semifinalists, -> {where(fin4: true)}
-	scope :finalists, -> {where(fin4: true)}
+	scope :finalists, -> {where(fin2: true)}
 	
 
 	scope :winners, -> {where(winner: true)}

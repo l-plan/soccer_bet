@@ -71,8 +71,8 @@ class Bet::Team < ApplicationRecord
 			end
 		end
 
-		def calculate_final
-			final.joins(:team).where(:team => {:fin2 => true}).each do |team|
+		def calculate_finale
+			finale.joins(:team).where(:team => {:fin2 => true}).each do |team|
 				team.update_attribute(:score, 10)
 			end
 		end
