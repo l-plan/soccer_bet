@@ -127,7 +127,7 @@ class TeamsController < ApplicationController
     redirect_to teams_url
   end
   def edit_many_winners
-    @winners = Team.all
+    @teams = Team.all
   end
 
   def update_many_winners
