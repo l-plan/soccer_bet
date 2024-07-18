@@ -84,11 +84,14 @@ module ParticipantsHelper
 
 	def eigthfinalists_array(participant)
 		arr = []
-		eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}.sort_by{|x| x.team.name}
+		eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}
+		unless eigthfinalists.empty?
+			eigthfinalists.sort_by{|x| x.team&.name}
 
 
-		eigthfinalists.each do |team|
-			arr << [nil, team.team.name, team.score.to_s]
+			eigthfinalists.each do |team|
+				arr << [nil, team.team.name, team.score.to_s]
+			end
 		end
 		arr[0][0] = "eightfinal"
 

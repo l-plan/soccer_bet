@@ -22,6 +22,13 @@ class Pdf::Participant
 
 		footer_with_page_numbers
 
+
+
+	end
+
+	def write
+		pdf.render_file( Rails.root.join('storage',"#{@participant.name.gsub(' ', '_')}_#{@participant.id}.pdf") )
+
 	end
 
 end

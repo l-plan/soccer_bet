@@ -15,6 +15,16 @@ class ScoresController < ApplicationController
 	    send_data pdf.pdf.render, :filename=>"scores.pdf",:disposition => 'attachment'
 	end
 
+	def write_all_final_scores
+		Participant.all.each do |part|
+			pdf = Pdf::Participant.new(part)
+			pdf.write
+		end
+
+
+		redirect_to scores_url
+	end
+
 
 	private
 

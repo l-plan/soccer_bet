@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
 
-  resources :home
+  resources :home, only: :index 
   
   resources :calculations do
       collection do
@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :scores, only: :index do
     collection do
       get :download
+      post :write_all_final_scores
+
     end
   end
 
