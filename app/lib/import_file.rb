@@ -7,8 +7,48 @@ class ImportFile
 
 
 	def initialize
-		@file = Roo::Spreadsheet.open('app/excel/totaal_pool_24.xlsx')
+		# @file = Roo::Spreadsheet.open('app/excel/totaal_pool_24.xlsx')
+		@file = Roo::Spreadsheet.open('app/excel/wk26_totaal.xlsx')
 		@warnings = Hash.new
+	end
+
+
+	def import_group
+
+		# file.sheets.each do |sheet|
+		# 	next unless sheet.downcase.match(/groep/)
+		# 	part = sheet[11,40]
+		# 	binding.b
+		# 	p sheet[2,10]
+
+
+		# end
+		# arr=[]
+		 file.each_with_pagename do |name, sheet|
+		 	next unless name.downcase.match(/groep/)
+
+		 	@participant = Participant.find_or_create_by(name:  name[11,40] )
+
+		 	(9..80).each do |x|
+				nr = 
+				line = sheet.row(x)
+				nr = line[0]
+				home = line[4]
+				away = line[5]
+
+				game_id = Game.find_by(nr: nr).id
+				@participant.games.create(game_id: game_id, home: home, away: away)
+
+			end
+
+
+		 	# arr.push(sheet.cell(80,1))
+		 	# @participant.games.build(game_id: game.id, home: home, away: away)
+
+		 	# part.bet_games.build()
+		 	# p sheet.cell(9,4)
+		 end
+		 # [arr.size, arr.uniq.size, arr.last]
 	end
 
 
@@ -99,25 +139,41 @@ class ImportFile
 
 
 
-	def import_games(sheet)
-		# set_participant(sheet)
-		[(12..17), (19..24) ,(26..31), (33..38), (40..45), (47..52)].each do |arr|
-			arr.to_a.each do |x|
+	def import_games
 
-				home_id = Team.find_by(name: return_official_team_name(sheet.cell(x,3).strip.downcase ) )&.id
-				away_id = Team.find_by(name: return_official_team_name(sheet.cell(x,5).strip.downcase  ) )&.id
 
-				game = Game.find_by(home_id: home_id, away_id: away_id, stage: "pool")
-				unless game
-					binding.b
-				end
-				home 	= sheet.cell(x,7)
-				away 	= sheet.cell(x,9)
+		sheet = file.sheet(1)
+
+		(9..80).each do |x|
+				
+				line = sheet.row(x)
+
+
+				nr = line[0]
+				date = Date.parse( line[1] )
+
+				home_id = Team.find_by(name: line[3] )&.id
+				away_id = Team.find_by(name: line[6])&.id
+
+				game = Game.create(nr: nr, home_id: home_id, away_id: away_id, date: date, stage: 'pool')
+
+				# home 	= sheet.cell(row,7)
+				# away 	= sheet.cell(row,9)				
+
+				# home_id = Team.find_by(name: return_official_team_name(sheet.cell(x,3).strip.downcase ) )&.id
+				# away_id = Team.find_by(name: return_official_team_name(sheet.cell(x,5).strip.downcase  ) )&.id
+
+				# game = Game.find_by(home_id: home_id, away_id: away_id, stage: "pool")
+				# unless game
+				# 	binding.b
+				# end
+				# home 	= sheet.cell(x,7)
+				# away 	= sheet.cell(x,9)
 	
-				@participant.games.build(game_id: game.id, home: home, away: away)
+				# @participant.games.build(game_id: game.id, home: home, away: away)
 
 			
-			end
+
 
 			
 		end

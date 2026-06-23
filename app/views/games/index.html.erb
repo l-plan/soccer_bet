@@ -10,7 +10,7 @@
       </div>
   </div>
 
-    <%games.each do |game|%>
+    <%games.sort_by(&:date).each do |game|%>
       <%=render 'games/game', game: game%>
     <% end %>
 
