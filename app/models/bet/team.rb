@@ -1,11 +1,12 @@
 class Bet::Team < ApplicationRecord
-	enum :stage, {winner: 6, finale: 5, semifinal: 4, quarterfinal: 3, eightfinal: 2, pool: 1, redcard: 99, poule_score: 77, poule_bonus: 88, sixteenfinal: 16}
+	enum :stage, {winner: 6, finale: 5, semifinal: 4, quarterfinal: 3, eightfinal: 2, pool: 0, redcard: 99, poule_score: 77, poule_bonus: 88, sixteenfinal: 1, goals: 98}
+
 
 	belongs_to :participant
 	belongs_to :team, class_name: "::Team", optional: true
 
 	scope :bonus, -> (poule){where(stage: :poule_bonus, poule: poule)}
-	scope :knockout, -> {where(stage: [:finale, :semifinal, :quarterfinal, :eightfinal])}
+	scope :knockout, -> {where(stage: [:finale, :semifinal, :quarterfinal, :eightfinal, :sixteenfinal])}
 	scope :pouleranking, -> {where(stage: [:poule_score, :poule_bonus])}
 
 	scope :updated, ->(stage){where(stage: stage).order(:updated_at)}
@@ -34,6 +35,18 @@ class Bet::Team < ApplicationRecord
 			poule_bonus.each{|x| x.update_attribute(:score, nil)}
 		end
 
+
+		def calculate_sixteenfinal
+			sixteenfinal.joins(:team).where(:team => {:fin32 => true}).each do |team|
+				team.update_attribute(:score, 2)
+			end
+		end
+
+		def reset_sixteenfinal
+			sixteenfinal.each do |team|
+				team.update_attribute(:score, nil)
+			end
+		end
 
 		def calculate_eightfinal
 			eightfinal.joins(:team).where(:team => {:fin16 => true}).each do |team|

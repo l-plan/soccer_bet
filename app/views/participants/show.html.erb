@@ -32,6 +32,12 @@
 
 <%end%>
 
+
+<%@participant.faxes.pool.each do |fax|%>
+  <%=render 'faxes/fax', fax: fax , stage: 'pool'%>
+<%end%>
+
+
 <div class='row t-area'>
   <div class='col-11'>totaal poulfase</div>
   <div class='col-1 text-center'><%=@participant.games.map(&:score).compact.sum%> </div>
@@ -44,7 +50,7 @@
 <div class='row'>
 <%@participant.teams.knockout.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, teams|%>
 
-    <div class='col-3'>
+    <div class='col-2'>
 
         <div class='row'>
           <div class='col-8'><%= Bet::Team.stages.invert[stage]%></div>
@@ -55,7 +61,7 @@
         <%end%>
 
         <div class='row'>
-          <div class='col-8'> <%= Bet::Team.stages.invert[stage]%></div>
+          <div class='col-8'> <%="totaal #{Bet::Team.stages.invert[stage]}"%></div>
           <div class='col-4 text-center'><%=@participant.teams.send(Bet::Team.stages.invert[stage]).map(&:score).compact.sum%> </div>
         </div>
 
@@ -64,6 +70,12 @@
 <%end%>
 
 </div>
+
+<% %w( winner finale semifinal quarterfinal eightfinal sixteenfinal ).each do |stage|%>
+  <%@participant.faxes.send(stage).each do |fax|%>
+    <%=render 'faxes/fax', fax: fax , stage: stage%>
+  <%end%>
+<%end%>
 
 <div class='row t-area'>
   <div class='col-11'> totaal voorspellingen knockout</div>
@@ -133,6 +145,17 @@
   </div>
 
 
+  <div class='row t-area'>
+    <div class='col-5'> voorspelling aantal doelpunten</div>
+
+
+        <div class='col-6'> <%=@participant.goal.amount%></div>
+
+
+
+  </div>
+
+
 
 <%@participant.players.group_by{|x| x.stage_before_type_cast}.sort.each do |stage, players|%>
 
@@ -150,7 +173,7 @@
 <%end%>
 
   <div class='row t-area'>
-    <div class='col-5'> europees kamoioen </div>
+    <div class='col-5'> wereldkampioen </div>
     <% @participant.teams.winner.each do |team|%>
 
         <div class='col-6'> <%=team&.team&.name%></div>

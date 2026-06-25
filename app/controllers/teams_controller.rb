@@ -145,7 +145,8 @@ class TeamsController < ApplicationController
   end
 
   def edit_many_redcards
-    @redcards = Team.all
+    @teams = Team.all
+    # @redcards = Team.all
   end
 
   def update_many_redcards

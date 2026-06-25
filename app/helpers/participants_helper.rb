@@ -82,6 +82,42 @@ module ParticipantsHelper
 		
 	end
 
+	def goals_array(participant)
+		arr = []
+		amount = participant.goal&.amount
+
+		if amount
+			arr << ["goals",amount, '']
+		else
+			arr << ["goals",'', '']
+		end		
+	end
+
+
+	def sixteenfinalists_array(participant)
+		arr = []
+		sixteenfinalists = participant.teams.select{|x| x.stage=="sixteenfinal"}
+
+
+		unless sixteenfinalists.empty?
+
+
+			sixteenfinalists.sort_by{|x| x.team&.name}
+
+
+			sixteenfinalists.each do |team|
+				arr << [nil, team.team.name, team.score.to_s]
+			end
+		else
+			arr << []
+		end
+
+		arr[0][0] = "sixteenfinal"
+
+		arr << [nil, nil,sixteenfinalists.map(&:score).compact.sum]
+		
+	end
+
 	def eigthfinalists_array(participant)
 		arr = []
 		eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}

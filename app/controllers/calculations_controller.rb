@@ -23,7 +23,7 @@ class CalculationsController < ApplicationController
 
 	def ordered_stages
 		games = ["pool"].map{|x| [x, Bet::Game]}
-		teams = ["poule_score","poule_bonus","eightfinal","quarterfinal", "semifinal", "finale","winner","redcard"].map{|x| [x, Bet::Team]}
+		teams = ["poule_score","poule_bonus","sixteenfinal","eightfinal","quarterfinal", "semifinal", "finale","winner","redcard"].map{|x| [x, Bet::Team]}
 		players = ["topscorer","topplayer"].map{|x| [x, Bet::Player]}
 		games+teams+players
 

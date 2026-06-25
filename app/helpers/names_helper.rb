@@ -14,45 +14,55 @@ module NamesHelper
 
   def return_official_player_name(entry)
     case entry
-      when /bell/
-        "bellingham"
-      when /depa|memp|meph/
-        "depay"
-      when /dijk/
-        "virgil van dijk"
-      when /dolb/
-        "kasper dolberg"
       when /fern/
          "bruno fernandez"
-      when /fode/
-        "phil foden"
-      when /frim|jerem/
-        "frimpong"
-      when /full/
-        "fullkrug"
-      when /have/
-        "havertz"
+      when /gakpo/
+        "cody gakpo"
+      when /dumfries/
+        "denzel dumfries"
+      when /dijk/
+        "virgil van dijk"
+      when /haaland/
+        "erling haaland"
+      when /frenkie/
+        "frenkie de jong"
       when /kane/
         "harry kane"
-      when /kroo/
-        "kroos"
-      when /luka/
-        "lukaku"
-      when /mbap|nbap|m'bap/
-        "killian mbappe"
-      when /rona/
-        "ronaldo"
-      when /saka/
-        "bukayo saka"
-      when /simo/
-        "simons"
-      when /wirt/
-         "florian wirtz"
-      when /wout/
-         "wout weghorst"
-
+      when /have/
+        "kai havertz"
+      when /david/
+        "jonathan david"
+      when /lvare/
+        "julian alvarez"
+      when /mbapp/
+        "kylian mbappe"
+      when /amal/
+        "lamine yamal"
+      when /malen/
+        "donyell malen"
+      when /olise/
+        "michael olise"
+      when /musiala/
+        "jamal musiala"
+      when /neves/
+         "ruben neves"
+      when /dembele/
+         "ousmane dembele"
+      when /oyarzabal/
+        "mikel oyarzabal"
+      when /ramos/
+        "sergio ramos"
+     when /raphinha/
+        "raphinha"
+      when /reijnders/
+        "tijjani reijnders"
+      when /rodri/
+        "rodrigo hernandez"
+      when /ronaldo/
+        "christiano ronaldo"
+      when /vinícius/
+        "vinícius junior"
     end
-
 
   end
 

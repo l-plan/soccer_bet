@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_06_25_122408) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_25_160031) do
   create_table "bet_games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "game_id"
@@ -20,6 +20,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_25_122408) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["participant_id"], name: "index_bet_games_on_participant_id"
+  end
+
+  create_table "bet_goals", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "participant_id"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_bet_goals_on_participant_id"
   end
 
   create_table "bet_players", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -48,7 +56,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_25_122408) do
 
   create_table "faxes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "participant_id"
-    t.string "stage"
+    t.integer "stage"
     t.integer "error"
     t.string "message"
     t.datetime "created_at", null: false
@@ -102,6 +110,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_25_122408) do
     t.boolean "fin8"
     t.boolean "fin4"
     t.boolean "fin2"
+    t.boolean "fin32"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
