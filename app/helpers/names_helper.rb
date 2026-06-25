@@ -59,59 +59,116 @@ module NamesHelper
 
   def return_official_team_name(entry)
     case entry.downcase 
-
-
-
-      when /^alb/
-        "Albanie"
-      when /^bel/
-        "Belgie"
+      when /^alg/
+        "Algeria"
+      when /^age|^arg/
+        "Argentina"
+      when /^austra/
+        "Australia"
+      when /^austria|^oost/
+        "Austria"
+      when /^belg|^berl/
+        "Belgium"
+      when /^bosn/
+        "Bosnië-Herzegovina"
+      when /^bra/
+        "Brazil"
+      when /^can/
+        "Canada"
+      when /^cap|^kaa/
+        "Cape Verde"
+      when /^col/
+        "Colombia"
+      when /^cro|^kro/
+        "Croatia"
+      when /^cur/
+        "Curaçao"
+      when /^con|^dr/
+        "DR Congo"
       when /^den/
-        "Denemarken"
-      when /^dui/
-        "Duitsland"
-      when /^en/
-        "Engeland"
-      when /^fr/
-        "Frankrijk"
-      when /^geo|^goerg/
-        "Georgie"
-      when /^hon/
-        "Hongarije"
+        "not-found"
+      when /^ecu|^equ/
+        "Ecuador"
+      when /^eg|^eqy/
+        "Egypt"
+      when /^eng/
+        "England"
+      when /^fra/
+        "France"
+      when /^du|^ger/
+        "Germany"
+      when /^gh/
+        "Ghana"
+      when /^alg/
+        "Haiti"
+      when /^irak/
+        "Irak"
+      when /^iran/
+        "Iran"
       when /^ita/
-        "Italie"
-      when /^kro/
-        "Kroatie"
-      when /^ned/
-        "Nederland"
-      when /^oek|^ukr/
-        "Oekraine"
-      when /^oos|^oss/
-        "Oostenrijk"
+        "not-found"
+      when /^iv/
+        "Ivory Coast"
+      when /^ja/
+        "Japan"
+      when /^alg/
+        "Jordan"
+      when /^mex/
+        "Mexico"
+      when /^mar|^mor/
+        "Morocco"
+      when /^ned|^neth/
+        "Netherlands"
+      when /^new|^nieu/
+        "New Zealand"
+      when /^nig/
+        "not-found"
+      when /^noor|^nor/
+        "Norway"
+      when /^oek/
+        "not-found"
+      when /^pan/
+        "Panama"
+      when /^para/
+        "Paraguay"
       when /^pol/
-        "Polen"
+        "not-found"
       when /^por/
         "Portugal"
-      when /^roe/
-        "Roemenie"
-      when /^sch/
-        "Schotland"
+      when /^qat/
+        "Qatar"
+      when /^sa/
+        "Saudi Arabia"
+      when /^sc/
+        "Scotland"
+      when /^sen/
+        "Senegal"
       when /^ser/
-        "Servie"
-      when /^slov/
-        "Slovenie"
-      when /^slow/
-        "Slowakije"
-      when /^spa/
-        "Spanje"
-      when /^tje|^tsj/
-        "Tjechie"
-      when /^tur/
+        "not-found"
+      when /africa|afrika/
+        "South Africa"
+      when /korea/
+        "South Korea"
+      when /^spain|^span/
+        "Spain"
+      when /^swi|^zwi/
+        "Switzerland"
+      when /^cz|^tje|^tsj/
+        "Tsjechië"
+      when /^tun/
+        "Tunisia"
+      when /^tur|rkiye/
         "Turkije"
-      when /^zwi/
-        "Zwitserland"
+      when /^ura|^uru/
+        "Uruguay"
+      when /^ame|^unite|^usa|^ver|^vs/
+        "USA"
+      when /^oez|^uzb/
+        "Uzbekistan"
+      when /^swe|^zwe/
+        "Zweden"
+      end
 
-    end
   end
         
 end

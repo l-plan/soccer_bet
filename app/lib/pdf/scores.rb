@@ -39,15 +39,18 @@ class Pdf::Scores
 	def print_ranking
 
 		arr = []
-		prev = 0
+		prev_score = 'score'
 
 			# arr << %w(rank name games eightfinal quarterfinal semifinal finale winner redcard topplayer topscorer total)
 
-		ranking.each do |part, v|
-			rank 	= v[0]
-			score 	= v[1]
+		ranking.each do |v|
+			# binding.b
+			part = Participant.find(v[0])
+			rank 	= v[1]
+			score 	= v[2]
 
-			(score == prev) ? print_rank = "" : print_rank = rank
+			# (score == prev) ? print_rank = "" : print_rank = rank
+			rank = "" if score == prev_score 
 
 			g = part.games.map(&:score).compact.sum
 			
@@ -63,9 +66,9 @@ class Pdf::Scores
 			tp = part.players.select{|x| x.stage == 'topplayer'}.map(&:score).compact.sum
 			ts = part.players.select{|x| x.stage == 'topscorer'}.map(&:score).compact.sum
 
-			arr << [print_rank, part.name, g,pr, pb,e,q,s,f,w, r,tp, ts, score ]
+			arr << [rank, part.name, g,pr, pb,e,q,s,f,w, r,tp, ts, score ]
 
-			prev = score
+			prev_score = score
 
 		end
 

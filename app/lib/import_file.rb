@@ -3,7 +3,7 @@ require 'roo'
 class ImportFile
 	include NamesHelper
 
-	attr_accessor :file, :participant, :warnings
+	attr_accessor :file, :participant, :team_entries
 
 
 	def initialize
@@ -13,24 +13,16 @@ class ImportFile
 	end
 
 
-	def import_group
-
-		# file.sheets.each do |sheet|
-		# 	next unless sheet.downcase.match(/groep/)
-		# 	part = sheet[11,40]
-		# 	binding.b
-		# 	p sheet[2,10]
+	def import_group_bets
 
 
-		# end
-		# arr=[]
 		 file.each_with_pagename do |name, sheet|
 		 	next unless name.downcase.match(/groep/)
 
 		 	@participant = Participant.find_or_create_by(name:  name[11,40] )
 
 		 	(9..80).each do |x|
-				nr = 
+				# nr = 
 				line = sheet.row(x)
 				nr = line[0]
 				home = line[4]
@@ -41,51 +33,64 @@ class ImportFile
 
 			end
 
-
-		 	# arr.push(sheet.cell(80,1))
-		 	# @participant.games.build(game_id: game.id, home: home, away: away)
-
-		 	# part.bet_games.build()
-		 	# p sheet.cell(9,4)
 		 end
-		 # [arr.size, arr.uniq.size, arr.last]
+
 	end
 
 
-	def import_participants
+	def import_knock_out_bets
 		file.each_with_pagename do |name, sheet|
-			next if name =~/Deelnemers/
+			next unless name.downcase =~/knock-out/
 
-			set_participant(sheet)
-			import_games(sheet)
+			part = name.downcase.downcase.gsub(/knock-out /, '').strip
 
+			@participant = Participant.find_by(name: part)
 
-
-			import_teams(sheet, (59..74), "eightfinal",2)
-
-			import_teams(sheet, (59..66), "quarterfinal", 5)
-
-			import_teams(sheet, (59..62), "semifinal", 8)
-
-			import_teams(sheet, (59..60), "finale",11)
-
-			import_teams(sheet, (59..59), "winner",14)
-
-			import_teams(sheet, (72..72), "redcard",8)
-
-			import_players(sheet)
-
-			import_poule_score(sheet, (12..50), "poule_score",12)
-	
-			@participant.save
-
-
+			import_teams(sheet, 2 , 32, "sixteenfinal")
 		end
 
 	end
 
+
+	def import_participants
+		arr = []
+		file.each_with_pagename do |name, sheet|
+			next unless name.downcase =~/knock-out/
+
+			part = name.downcase.downcase.gsub(/knock-out /, '').strip
+
+			@participant = Participant.find_by(name: part)
+
+
+			# import_games(sheet)
+
+			import_teams(sheet, (10..41), "sixteenfinal",2)
+
+			# import_teams(sheet, (10..41), "eightfinal",2)
+
+			# import_teams(sheet, (59..66), "quarterfinal", 5)
+
+			# import_teams(sheet, (59..62), "semifinal", 8)
+
+			# import_teams(sheet, (59..60), "finale",11)
+
+			# import_teams(sheet, (59..59), "winner",14)
+
+			# import_teams(sheet, (72..72), "redcard",8)
+
+			# import_players(sheet)
+
+			# import_poule_score(sheet, (12..50), "poule_score",12)
+	
+			# @participant.save
+
+
+		end
+		arr
+	end
+
 	def import_poule_score(sheet,range, stage,column)
-		%w(a b c d e f).each do |poule_letter|
+		%w(a b c d e f g h i j k l).each do |poule_letter|
 			@participant.teams.build(stage: 88,poule: poule_letter )
 		end
 		
@@ -119,9 +124,9 @@ class ImportFile
 				name = return_official_team_name(name)
 
 
-				unless name
-					binding.b
-				end
+				# unless name
+				# 	binding.b
+				# end
 				team_id = Team.find_by(name: name )&.id	
 				
 				@participant.teams.build(stage: stage, team_id: team_id,poule: poule, poule_rank: poule_rank )
@@ -130,12 +135,6 @@ class ImportFile
 				poule_rank = 1 if poule_rank == 5
 		end
 	end
-
-	# def set_participant(sheet)
-	# 	part = 	sheet.cell(3,2)
-	# 	email = sheet.cell(4,2)
-	# 	@participant = Participant.find_by(name: part, email: email) || Participant.new(name: part, email: email)
-	# end
 
 
 
@@ -156,61 +155,114 @@ class ImportFile
 				away_id = Team.find_by(name: line[6])&.id
 
 				game = Game.create(nr: nr, home_id: home_id, away_id: away_id, date: date, stage: 'pool')
-
-				# home 	= sheet.cell(row,7)
-				# away 	= sheet.cell(row,9)				
-
-				# home_id = Team.find_by(name: return_official_team_name(sheet.cell(x,3).strip.downcase ) )&.id
-				# away_id = Team.find_by(name: return_official_team_name(sheet.cell(x,5).strip.downcase  ) )&.id
-
-				# game = Game.find_by(home_id: home_id, away_id: away_id, stage: "pool")
-				# unless game
-				# 	binding.b
-				# end
-				# home 	= sheet.cell(x,7)
-				# away 	= sheet.cell(x,9)
+		
 	
-				# @participant.games.build(game_id: game.id, home: home, away: away)
-
-			
-
-
-			
 		end
 
 		# @participant.save
 	end
 
-	def import_teams(sheet, range, stage, column)
+	def import_teams(sheet, column, amount, stage)
+		# import_teams(sheet, (10..41), "sixteenfinal",2)
+
+		entries = sheet.column(column).compact[0,amount]
+		arr = []
+
+		entries.each do |entry|
+			name = return_official_team_name(entry.strip.downcase)
+			next if name =~ /not-found/
+			team = Team.find_by(name: name )
+			arr.push team.id
+			
+		end
+
+		arr.compact.uniq.each do |team|
+			participant.teams.build(stage: stage, team_id: team, stage: stage)
+		end
+
+		# if participant.id == 35
+		# 	binding.b
+		# end
+
+		participant.save
+		check_for_team_warnings(stage)
 		
-			range.to_a.each do |x|
-				name = sheet.cell(x,column)
-				next if name.blank?
-				name = name.strip.downcase
+			# range.to_a.each do |x|
+			# 	name = sheet.cell(x,column)
+			# 	next if name.blank?
+			# 	name = name.strip.downcase
 
 				
 
-				name = return_official_team_name(name)
+			# 	name = return_official_team_name(name)
 
-				team_id = Team.find_by(name: name )&.id
-
-				# unless team_id
-				# 	binding.b
-				# end	
-
-				@participant.teams.build(stage: stage, team_id: team_id)
+			# 	team = Team.find_by(name: name )
 
 
-	  		end
+			# 	participant.teams.build(stage: stage, team_id: team&.id, poule: team&.poule)
 
-			check_for_team_warnings(stage)
 
+	  		# end
+
+			# check_for_team_warnings(stage)
+			warnings
 
 	end	
 
+	def find_team_entries
+		team_entries = []
+		
+		file.each_with_pagename do |name, sheet|
+			arr = []
+			next unless name.downcase =~/knock-out/
+			part = name.downcase.downcase.gsub(/knock-out /, '').strip
+
+			@participant = Participant.find_by(name: part)
+	
+			arr << [sheet.column(2).compact[0,32],sheet.column(5).compact[0,16],sheet.column(8).compact[0,8],sheet.column(11).compact[0,4],
+				sheet.column(14).compact[0,2],sheet.column(17).compact[0,1], sheet.cell(23,11)]
+			
+			arr.flatten.compact.each do |entry|
+				team_entries << entry.downcase.strip
+			end
+
+		end
+		
+		[team_entries.size,team_entries.uniq.sort]
+
+	end
+
+	def check_for_group_warnings
+
+
+		 file.each_with_pagename do |name, sheet|
+		 	next unless name.downcase.match(/groep/)
+
+		 	@participant = Participant.find_or_create_by(name:  name[11,40] )
+
+		 	(9..80).each do |x|
+				# nr = 
+				line = sheet.row(x)
+				nr = line[0]
+				home = line[4]
+				away = line[5]
+
+				
+				participant.faxes.create(stage: 'pool', error: "no entry", message: "no home score game #{nr}") if home.blank?
+				participant.faxes.create(stage: 'pool', error: "no entry", message: "no away score game #{nr}") if away.blank?
+
+
+			end
+
+		 end
+
+	end
+
 	def check_for_team_warnings(stage)
-			amount = 1
+			amount = 0
 			case stage
+				when "sixteenfinal"
+					amount = 32
 				when "eightfinal"
 					amount = 16
 				when "quarterfinal"
@@ -219,21 +271,20 @@ class ImportFile
 					amount = 4
 				when "finale"
 					amount = 2
+				when "winner"
+					amount = 1
 			end
 
 		size = @participant.teams.select{|x| x.stage==stage}.size
 		unless size==amount
-			warnings[@participant.name] = {} unless warnings[@participant.name]
-
-			warnings[@participant.name][stage] = "#{@participant.name} only has #{size} entries out of #{amount} for #{stage}"
+			participant.faxes.create(stage: stage)
 		end
 	end
 
 	def check_for_player_warnings(stage)
 		size = @participant.players.select{|x| x.stage==stage}.size
 		unless size==1
-			warnings[@participant.name] = {} unless warnings[@participant.name]
-			warnings[@participant.name][stage] = "#{@participant.name} only has no entry for #{stage}"
+			participant.faxes.create(stage: stage)
 		end
 
 	end

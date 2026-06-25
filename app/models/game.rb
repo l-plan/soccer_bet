@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-	enum :stage, {winner: 6, finale: 5, semifinal: 4, quarterfinal: 3, eightfinal: 2, pool: 1, redcard: 99}
+	enum :stage, {winner: 6, finale: 5, semifinal: 4, quarterfinal: 3, eightfinal: 2, pool: 1, redcard: 99, sixteenfinal: 16}
 	belongs_to :home, class_name: "Team", optional: true
 	belongs_to :away, class_name: "Team", optional: true
 	has_many :games, class_name: "Bet::Game"

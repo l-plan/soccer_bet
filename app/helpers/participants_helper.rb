@@ -48,7 +48,7 @@ module ParticipantsHelper
 		arr = []
 		gamez = participant.games
 
-		poule = %w(A B C D E F )
+		poule = %w(A B C D E F G H I J K L)
 		gamez.each_slice(6).with_index do |games, i|
 			arr << ["poule #{poule[i]}"]
 			games.each do |game|
@@ -85,14 +85,21 @@ module ParticipantsHelper
 	def eigthfinalists_array(participant)
 		arr = []
 		eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}
+
+
 		unless eigthfinalists.empty?
+
+
 			eigthfinalists.sort_by{|x| x.team&.name}
 
 
 			eigthfinalists.each do |team|
 				arr << [nil, team.team.name, team.score.to_s]
 			end
+		else
+			arr << []
 		end
+
 		arr[0][0] = "eightfinal"
 
 		arr << [nil, nil,eigthfinalists.map(&:score).compact.sum]
@@ -106,6 +113,7 @@ module ParticipantsHelper
 		quarterfinalists.each do |team|
 			arr << [nil, team.team&.name|| "", team.score.to_s]
 		end
+		arr << [] if arr.empty?
 		arr[0][0] = "quarterfinal"
 		arr << [nil, nil,quarterfinalists.map(&:score).compact.sum]
 
@@ -118,6 +126,7 @@ module ParticipantsHelper
 		semifinalists.each do |team|
 			arr << [nil, team.team.name, team.score.to_s]
 		end
+		arr << [] if arr.empty?
 		arr[0][0] = "semifinal"
 		arr << [nil, nil,semifinalists.map(&:score).compact.sum]
 
@@ -130,6 +139,7 @@ module ParticipantsHelper
 		finalists.each do |team|
 			arr << [nil, team.team.name, team.score.to_s]
 		end
+		arr << [] if arr.empty?
 		arr[0][0] = "finale"
 
 		arr << [nil, nil,finalists.map(&:score).compact.sum]
@@ -140,28 +150,48 @@ module ParticipantsHelper
 	def winner_array(participant)
 		arr = []
 		winner = participant.teams.find{|x| x.stage=="winner"}
-		arr << ["winner",winner.team.name, winner.score.to_s]
+
+		if winner
+			arr << ["winner",winner.team.name, winner.score.to_s]
+		else
+			arr << ["winner",'', '']
+		end
 
 	end
 
 	def topplayer_array(participant)
 		arr = []
 		player = participant.players.find{|x| x.stage=="topplayer"}
-		arr << ["topplayer",player.player.name, player.score.to_s]
+		if player
+			arr << ["topplayer",player.player.name, player.score.to_s]
+		else
+			arr << ["topplayer",'', '']
+		end
 
 	end
 
 	def topscorer_array(participant)
+
 		arr = []
 		player = participant.players.find{|x| x.stage=="topscorer"}
-		arr << ["topscorer",player.player.name, player.score.to_s]
+
+		if player
+			arr << ["topscorer",player.player.name, player.score.to_s]
+		else
+			arr << ["topscorer",'', '']
+		end
 
 	end
 
 	def redcard_array(participant)
 		arr = []
 		team = participant.teams.find{|x| x.stage=="redcard"}
-		arr << ["redcard",team&.team&.name, team&.score&.to_s]
+		if team
+			arr << ["redcard",team&.team&.name, team&.score&.to_s]
+
+		else
+			arr << ["redcard",'', '']
+		end
 
 	end
 

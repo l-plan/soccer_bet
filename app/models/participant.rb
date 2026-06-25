@@ -15,6 +15,8 @@ class Participant < ApplicationRecord
 	has_many :poule_scores, -> { poule_score }, class_name: 'Bet::Team', inverse_of: :participant
 	has_many :poule_bonuses, -> { poule_bonus }, class_name: 'Bet::Team', inverse_of: :participant
 
+	has_many :faxes
+
 	has_one :topplayer, -> { topplayer }, class_name: 'Bet::Player', inverse_of: :participant
 	has_one :topscorer, -> { topscorer }, class_name: 'Bet::Player', inverse_of: :participant
 
@@ -27,7 +29,10 @@ class Participant < ApplicationRecord
 
 
 	def self.ranked
-		includes(games: {game: [:home, :away] }, teams: :team, players: :player).group_by{|x| x.score_total}.sort.reverse.inject({}){|hsh,(pnt,a)| r=hsh.size+1; a.each{|x| hsh[x] =  [r, pnt] } ;hsh}
+		# includes(games: {game: [:home, :away] }, teams: :team, players: :player).group_by{|x| x.score_total}.sort.reverse.inject({}){|hsh,(pnt,a)| r=hsh.size+1; a.each{|x| hsh[x] =  [r, pnt] } ;hsh}
+		srt = sorted.each_with_index.map{|x,i| {x.id => [ i+1, x.score_total] } }
+		srt = sorted.each_with_index.map{|x,i| [x.id ,i+1, x.score_total ] }
+
 	end
 
 

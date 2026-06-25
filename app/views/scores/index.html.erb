@@ -9,15 +9,19 @@
 	</div>
 </div>
 
-<%prev_rank = 0 %>
+<%prev_score = 'score' %>
+<%=@ranking.class%>
 
-<%@ranking.sort_by{|k,v| v[1]}.reverse.each do |part,v|%>
+<%@ranking.each do |part|%>
 
-	<%rank = (prev_rank==v[0]) ? nil : v[0]%>
-	<%score =  v[1]%>
+	<% rank = part[1] %>
+	<% score = part[2] %>
 
-	<%=render 'score', rank: rank, score: score, part: part %>
-	<%prev_rank = rank%>
+	<% rank = nil if score == prev_score  %>
+
+	<%=render 'score', rank: rank, score: score, part: Participant.find(part[0]) %>
+
+	<%prev_score = score %>
 
 <%end%>
 

@@ -7,18 +7,22 @@ class Bet::Game < ApplicationRecord
 
 
 	def home?
+		return nil unless home && away
 		home > away
 	end
 
 	def away?
+		return nil unless home && away
 		away > home
 	end
 
 	def draw?
+		return nil unless home && away
 		home == away
 	end
 
 	def exact?
+		return nil unless home && away
 		home == game.score_home and away == game.score_away
 	end
 

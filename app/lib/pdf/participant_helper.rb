@@ -50,9 +50,9 @@ module Pdf::ParticipantHelper
 	def print_games(participant)
 		arr = games_array(participant)
 
-		pdf.table( arr, :column_widths => [60,10,60,10, 25, 10, 25, 25], :cell_style=>cellstyle , position: 0) do
+		pdf.table( arr, :column_widths => [100,10,100,10, 25, 10, 25, 25], :cell_style=>cellstyle , position: 0) do
 			column(7).style :align => :right
-			rows([0,7,14,21,28,35,42]).style :font_style=> :bold	
+			rows([0,7,14,21,28,35,42, 49, 56, 63, 70, 77]).style :font_style=> :bold	
 		end
 
 	end
@@ -137,9 +137,9 @@ module Pdf::ParticipantHelper
 	end
 
 	def print_topscorer(participant)
-		arr = []
-		player = participant.players.find{|x| x.stage=="topscorer"}
-		arr << ["topscorer",player.player.name, player.score.to_s]
+
+
+		arr = topscorer_array(participant)
 
 		pdf.table( arr, :column_widths => [80, 80, 25], :cell_style=>cellstyle , position: 300) do
 			column(2).style :align => :right
