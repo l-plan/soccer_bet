@@ -49,7 +49,7 @@ class Ranking
 		end
 		standings = standings.sort_by{|x| [-x[:points], -x[:gd], -x[:gf], x[:fair], -x[:fifa]]}
 
-		3.times do
+		5.times do
 			standings.each_with_index do |stand, i|
 				next if i == 0
 				prev = standings[i-1]
@@ -118,7 +118,7 @@ class Ranking
 		end
 		standings = standings.sort_by{|x| [-x[:points], -x[:gd], -x[:gf], x[:fair], -x[:fifa]]}
 
-		3.times do
+		5.times do
 			standings.each_with_index do |stand, i|
 				next if i == 0
 				prev = standings[i-1]

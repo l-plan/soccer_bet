@@ -71,7 +71,8 @@ module ParticipantsHelper
 			v.sort_by{|x| x.team.poule_rank}.each do |team|
 				arr << [team.team.name, team.team.poule_rank.to_s, "(#{team.poule_rank})", team.score.to_s]
 			end
-			arr << ['bonus', nil, nil,participant.teams.select{|x| x.stage=="poule_bonus" and x.poule == k }[0].score.to_s]
+			# arr << ['bonus', nil, nil,k]
+			arr << ['bonus', nil, nil,participant.teams.find{|x| x.stage=="poule_bonus" and x.poule.in? ([k, k.upcase]) }&.score.to_s]
 		end
 
 
