@@ -11,6 +11,11 @@ class Team < ApplicationRecord
 
 	has_many :poule_scores, -> { poule_score }, class_name: 'Bet::Team', inverse_of: :team
 
+	has_one :fifa_ranking, class_name: "Fifa::Ranking"
+	has_one :fifa_fair_play_ranking, class_name: "Fifa::FairPlayRanking"
+
+
+
 
 
 	scope :sixteenfinalists, -> {where(fin32: true)}
@@ -32,6 +37,8 @@ class Team < ApplicationRecord
 	def self.redcard
 		Team.find_by(red: true)
 	end
+
+	
 
 
 

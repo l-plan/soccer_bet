@@ -1,0 +1,12 @@
+<% content_for :title, "Editing ranking" %>
+
+<h1>Editing ranking</h1>
+
+<%= render "form", fifa_ranking: @fifa_ranking %>
+
+<br>
+
+<div>
+  <%= link_to "Show this ranking", @fifa_ranking %> |
+  <%= link_to "Back to rankings", fifa_rankings_path %>
+</div>

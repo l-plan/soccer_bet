@@ -1,0 +1,2 @@
+module Fifa::RankingsHelper
+end

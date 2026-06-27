@@ -20,14 +20,14 @@ class Bet::Team < ApplicationRecord
 		end
 
 		def reset_poule_score
-			poule_score.each{|x| x.update_attribute(:score, 0)}
+			poule_score.each{|x| x.update_attribute(:score, nil)}
 		end
 
 		def calculate_poule_bonus
 			poule_score.group_by{|x| [x.participant_id, x.poule]}.each do |k,v|
 				sum = v.collect(&:score).compact.sum
 				next unless sum==4
-				Bet::Team.find_by(participant_id: k[0], poule: k[1]).update_attribute(:score, 2)
+				Bet::Team.find_or_create_by(participant_id: k[0], poule: k[1], stage: 'poule_bonus').update_attribute(:score, 2)
 			end
 		end
 
@@ -38,7 +38,7 @@ class Bet::Team < ApplicationRecord
 
 		def calculate_sixteenfinal
 			sixteenfinal.joins(:team).where(:team => {:fin32 => true}).each do |team|
-				team.update_attribute(:score, 2)
+				team.update_attribute(:score, 1)
 			end
 		end
 

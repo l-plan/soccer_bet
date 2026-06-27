@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @fifa_fair_play_ranking %>
+
+<div>
+  <%= link_to "Edit this fair play ranking", edit_fifa_fair_play_ranking_path(@fifa_fair_play_ranking) %> |
+  <%= link_to "Back to fair play rankings", fifa_fair_play_rankings_path %>
+
+  <%= button_to "Destroy this fair play ranking", @fifa_fair_play_ranking, method: :delete %>
+</div>

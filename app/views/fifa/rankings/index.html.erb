@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Rankings" %>
+
+<h1>Rankings</h1>
+
+<div id="fifa_rankings">
+  <% @rankings.each do |ranking| %>
+    <%= render 'ranking', ranking: ranking %>
+  <% end %>
+</div>
+
+<%= link_to "New ranking", new_fifa_ranking_path %>

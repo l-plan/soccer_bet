@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Fair play rankings" %>
+
+<h1>Fifa Fair play rankings</h1>
+
+<div id="fifa_fair_play_rankings">
+  <% @rankings.each do |ranking| %>
+    <%= render 'ranking', ranking: ranking %>
+  <% end %>
+</div>
+
+<%#= link_to "New fair play ranking", new_fifa_fair_play_ranking_path %>

@@ -1,0 +1,2 @@
+module Fifa::FairPlayRankingsHelper
+end

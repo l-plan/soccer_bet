@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @fifa_ranking %>
+
+<div>
+  <%= link_to "Edit this ranking", edit_fifa_ranking_path(@fifa_ranking) %> |
+  <%= link_to "Back to rankings", fifa_rankings_path %>
+
+  <%= button_to "Destroy this ranking", @fifa_ranking, method: :delete %>
+</div>

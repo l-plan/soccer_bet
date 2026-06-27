@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :fifa do
+    resources :fair_play_rankings
+    resources :rankings
+  end
   devise_for :users
 
 
@@ -45,12 +49,14 @@ Rails.application.routes.draw do
       get :edit_many_redcards
       post :update_many_redcards
 
+      get :edit_many_sixteenfinalists
       get :edit_many_eightfinalists
       get :edit_many_quarterfinalists
       get :edit_many_semifinalists
       get :edit_many_finalists
       get :edit_many_winners
 
+      post :update_many_sixteenfinalists
       post :update_many_eightfinalists
       post :update_many_quarterfinalists
       post :update_many_semifinalists

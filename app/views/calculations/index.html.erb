@@ -22,8 +22,9 @@
 		<%= klass.send(stage).map(&:score).compact.sum%>
 	</div>
 	<div class='col-2'>
-		<%#= nldt klass.send(stage).order(:updated_at).last.updated_at %>
+		<%= nldt klass.send(stage).order(:updated_at).last&.updated_at %>
 	</div>
+<%= calculate_stage_calculations_path(calculation: {stage: stage, klass: klass})%>
 
 </div>	
 <div class='row'>&nbsp;</div>

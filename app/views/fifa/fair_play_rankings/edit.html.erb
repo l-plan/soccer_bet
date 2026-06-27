@@ -1,0 +1,12 @@
+<% content_for :title, "Editing fair play ranking" %>
+
+<h1>Editing fair play ranking</h1>
+
+<%= render "form", fifa_fair_play_ranking: @fifa_fair_play_ranking %>
+
+<br>
+
+<div>
+  <%= link_to "Show this fair play ranking", @fifa_fair_play_ranking %> |
+  <%= link_to "Back to fair play rankings", fifa_fair_play_rankings_path %>
+</div>

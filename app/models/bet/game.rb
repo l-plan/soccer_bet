@@ -5,6 +5,8 @@ class Bet::Game < ApplicationRecord
 	scope :pool, -> {unscoped}
 	scope :updated, -> {unscoped}
 
+	scope :played, -> {joins(:game).where.not(game: {score_home: nil, score_away: nil} ) }
+
 
 	def home?
 		return nil unless home && away

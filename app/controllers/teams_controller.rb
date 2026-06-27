@@ -56,8 +56,26 @@ class TeamsController < ApplicationController
     end
   end
 
-  def edit_many_eightfinalists
+  def edit_many_sixteenfinalists
     @teams = Team.all
+  end
+
+  def update_many_sixteenfinalists
+    @teams= Team.unscoped
+    Team.sixteenfinalists.each{|x| x.update_attribute(:fin32, nil)}
+    ids = params[:team_ids]
+    if ids
+      ids.each do |id|
+        next if id.blank?
+        Team.find(id).update_attribute(:fin32, true)
+      end
+    end
+      
+    redirect_to teams_url
+  end
+
+  def edit_many_eightfinalists
+    @teams = Team.sixteenfinalists
   end
 
   def update_many_eightfinalists
