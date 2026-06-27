@@ -137,25 +137,25 @@ class ImportFile
 
 
 
-	def import_poule_score(sheet,range, stage,column)
-		%w(a b c d e f g h i j k l).each do |poule_letter|
-			@participant.teams.build(stage: 88,poule: poule_letter )
-		end
+	# def import_poule_score(sheet,range, stage,column)
+	# 	%w(a b c d e f g h i j k l).each do |poule_letter|
+	# 		@participant.teams.build(stage: 88,poule: poule_letter )
+	# 	end
 		
-		poule = "a"
+	# 	poule = "a"
 
-		poule_rank = 1
-		range.each do |x|
+	# 	poule_rank = 1
+	# 	range.each do |x|
 
-				letter = sheet.cell(x,11)
+	# 			letter = sheet.cell(x,11)
 		
-				if letter and letter.size > 3
-					poule=letter.last.downcase
-				end
+	# 			if letter and letter.size > 3
+	# 				poule=letter.last.downcase
+	# 			end
 
 
-				name = sheet.cell(x,column)
-				next if name.blank?
+	# 			name = sheet.cell(x,column)
+	# 			next if name.blank?
 
 
 
@@ -164,25 +164,25 @@ class ImportFile
 
 
 
-				name = name.strip.downcase
+	# 			name = name.strip.downcase
 
 
 				
 
-				name = return_official_team_name(name)
+	# 			name = return_official_team_name(name)
 
 
-				# unless name
-				# 	binding.b
-				# end
-				team_id = Team.find_by(name: name )&.id	
+	# 			# unless name
+	# 			# 	binding.b
+	# 			# end
+	# 			team_id = Team.find_by(name: name )&.id	
 				
-				@participant.teams.build(stage: stage, team_id: team_id,poule: poule, poule_rank: poule_rank )
+	# 			@participant.teams.build(stage: stage, team_id: team_id,poule: poule, poule_rank: poule_rank )
 
-				poule_rank += 1
-				poule_rank = 1 if poule_rank == 5
-		end
-	end
+	# 			poule_rank += 1
+	# 			poule_rank = 1 if poule_rank == 5
+	# 	end
+	# end
 
 
 

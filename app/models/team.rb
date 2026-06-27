@@ -38,8 +38,19 @@ class Team < ApplicationRecord
 		Team.find_by(red: true)
 	end
 
+	def self.calculate_poule_rank
+		%w(a b c d e f g h i j k l).each do |poule|
+			Ranking.new(poule).fifa_poule_ranking.each do |rank|
+				self.find(rank[1]).update_attribute(:poule_rank, rank[0])
+			end
+		end
+	end
+
 	
 
+	def self.reset_poule_rank
+		unscoped.each{|x| x.update_attribute(:poule_rank, nil)}
+	end
 
 
 
