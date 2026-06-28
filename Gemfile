@@ -74,9 +74,9 @@ gem "sassc-rails"
 
 gem "roo"
 
-gem "prawn"
-gem "prawn-table"
-gem "prawn-icon"
+gem "prawn" #(2.5.0)
+gem "prawn-table" #(0.2.2)
+gem "prawn-icon" #(3.1.0)
 
 #needed for capistrano-put in development?
 gem "ed25519", "~> 1.3"

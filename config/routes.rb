@@ -12,6 +12,10 @@ Rails.application.routes.draw do
       collection do
         post :calculate_stage
         post :reset_stage
+        post :calculate_fifa_poule_rankings
+        post :reset_fifa_poule_rankings
+        post :calculate_participants_poule_rankings
+        post :reset_participants_poule_rankings
       end
   end
 

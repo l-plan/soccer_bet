@@ -117,7 +117,7 @@ module Pdf::PrintPdf
 	end
 
 	def vertical_style
-		{:size=>7 , :valign => :bottom, :rotate => 90, :align=> :left, :height=> 50, :border_width=> 0}
+		{:size=>7 , :valign => :bottom, :rotate => 90,  :height=> 100, :border_width=> 0, :disable_wrap_by_char=> true,:overflow => :shrink_to_fit}
 	end
 
 

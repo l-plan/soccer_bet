@@ -15,6 +15,36 @@ class Bet::Team < ApplicationRecord
 
 	class << self
 
+
+		def calculate_participants_poule_rankings
+			poule_score.delete_all
+			%w(a b c d e f g h i j k l).each do |poule|
+				Participant.all.each do |part|
+					Ranking.new(poule, part.id ).bet_poule_ranking. each do |rank|
+
+						part.teams.build(stage: 'poule_score', team_id: rank[1], poule: poule, poule_rank: rank[0])
+					end
+					part.save
+				end
+			end
+		end
+
+
+		def self.calculate_participants_poule_rankings
+			%w(a b c d e f g h i j k l).each do |poule|
+				Ranking.new(poule).fifa_poule_ranking.each do |rank|
+					self.find(rank[1]).update_attribute(:poule_rank, rank[0])
+				end
+			end
+		end
+
+		
+
+		def reset_participants_poule_rankings
+			poule_score.delete_all
+		end
+
+
 		def calculate_poule_score
 			poule_score.each{|x| x.update_attribute(:score, 1) if x.team.poule_rank == x.poule_rank}
 		end

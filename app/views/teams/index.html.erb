@@ -26,6 +26,10 @@
 
 
       <div class='col-1 text-center'>
+        16e finale
+      </div>
+
+      <div class='col-1 text-center'>
         8e finale
       </div>
       <div class='col-1 text-center'>
@@ -64,6 +68,10 @@
           <%=team.poule_rank%>
         </div>
 
+
+        <div class='col-1 text-center'>
+          <%=iconCheck?(team.fin32, size: (team.fin32 ? 1.2 : 0.7))%>
+        </div>
 
         <div class='col-1 text-center'>
           <%=iconCheck?(team.fin16, size: (team.fin16 ? 1.2 : 0.7))%>

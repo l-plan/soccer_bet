@@ -23,9 +23,14 @@
 				<%=part.teams.select{|x| x.stage == 'poule_bonus'}.map(&:score).compact.sum %> 
 			</div>
 			<div class='col-6 text-center'>
-				<%=part.teams.select{|x| x.stage == 'eightfinal'}.map(&:score).compact.sum %>
+				<%=part.teams.select{|x| x.stage == 'sixteenfinal'}.map(&:score).compact.sum %> 
 			</div>
 		</div>
+	</div>
+
+	<div class='col-1 text-center'>
+		
+		<%=part.teams.select{|x| x.stage == 'eightfinal'}.map(&:score).compact.sum %>
 	</div>
 
 	<div class='col-1'>

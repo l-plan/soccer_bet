@@ -72,6 +72,7 @@ class Ranking
 
 	end
 
+
 	def bet_poule_ranking
 
 		teams = Team.where(poule: poule).includes(:fifa_ranking, :fifa_fair_play_ranking)

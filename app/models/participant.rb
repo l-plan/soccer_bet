@@ -69,6 +69,11 @@ class Participant < ApplicationRecord
 		eightfinalists.map(&:score).compact.sum
 	end
 
+
+	def score_sixteenfinalists
+		sixteenfinalists.map(&:score).compact.sum
+	end
+
 	def score_topplayer
 		topplayer&.score || 0
 	end

@@ -121,18 +121,7 @@ class ImportFile
 		
 	end
 
-	def import_poule_ranking
-		Bet::Team.poule_score.delete_all
-		%w(a b c d e f g h i j k l).each do |poule|
-			Participant.all.each do |part|
-				Ranking.new(poule, part.id ).bet_poule_ranking. each do |rank|
-					# Team.find(rank[1]).update_attribute(poule_rank: rank[0])
-					part.teams.build(stage: 'poule_score', team_id: rank[1], poule: poule, poule_rank: rank[0])
-				end
-				part.save
-			end
-		end
-	end
+
 
 
 
