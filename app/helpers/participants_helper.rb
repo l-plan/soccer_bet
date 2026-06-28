@@ -62,25 +62,90 @@ module ParticipantsHelper
 	end
 
 	def poule_ranking_array(participant)
+
+
 		arr = [["poule-rankings", nil, nil, nil]]
 		# eigthfinalists = participant.teams.select{|x| x.stage=="eightfinal"}.sort_by{|x| x.team.name}
-		poule_ranking = participant.teams.select{|x| x.stage=="poule_score"}.group_by{|x| x.team.poule}
+		poule_ranking = participant.teams.poule_score.group_by{|x| x.poule}
 
 		poule_ranking.each do |k,v|
-			arr << [k,nil,nil,nil]
-			v.sort_by{|x| x.team.poule_rank}.each do |team|
-				arr << [team.team.name, team.team.poule_rank.to_s, "(#{team.poule_rank})", team.score.to_s]
+			arr << [nil,k,nil,nil]
+			v.sort_by{|x| x.poule_rank}.each do |team|
+				arr << [team.poule_rank.to_s, team.team.name, team.team.poule_rank.to_s, team.score.to_s]
 			end
-			# arr << ['bonus', nil, nil,k]
-			arr << ['bonus', nil, nil,participant.teams.find{|x| x.stage=="poule_bonus" and x.poule.in? ([k, k.upcase]) }&.score.to_s]
+
+			arr << ['bonus', nil, nil,participant.teams.find{|x| x.stage=="poule_bonus" and x.poule.in? ([k, k.downcase, k.upcase].uniq) }&.score.to_s]
+		end
+		arr = []
+
+		participant.teams.poule_score.group_by(&:poule).each_slice(2).map{|x| x}.each do |a,b|
+
+			left  = a[1].sort_by(&:poule_rank)
+			right = b[1].sort_by(&:poule_rank)
+
+			line = Array.new(9)
+
+			line.insert( 0, a[0].upcase )
+			line.insert( 5, b[0].upcase )
+			arr << line
+
+				left_score = 0
+				right_score = 0
+
+
+			(0..3).each do |i|
+
+				line = Array.new(9)
+				line[0]= left[i].poule_rank.to_s
+				line[1]= left[i].team.name
+				line[2]= "( #{left[i].team.poule_rank} )"
+
+				score = left[i].score 
+				left_score+= score if score
+				line[3]= score.to_s
+
+				line[5]= right[i].poule_rank.to_s
+				line[6]= right[i].team.name
+				line[7]= "( #{right[i].team.poule_rank} )"
+
+				score = right[i].score 
+				right_score+= score	if score	
+				line[8]= score.to_s
+
+				arr << line
+			end
+
+			line = Array.new(9)
+			score = participant.teams.poule_bonus.find{|x| x.poule == a[0]}&.score
+			left_score += score if score
+			line[1] = 'bonus'
+			line[3] = score.to_s
+
+			score = participant.teams.poule_bonus.find{|x| x.poule == b[0]}&.score
+			right_score += score if score
+			line[6] = 'bonus'
+			line[8] = score.to_s
+
+			arr << line
+
+			line = Array.new(9)
+			line[1] = "totaal poule #{a[0]}"
+			line[3] = left_score.to_s
+			line[6] = "totaal poule #{b[0]}"
+			line[8] = right_score.to_s
+
+			arr << line
+
 		end
 
+		arr 
 
+		line = Array.new(9)
+		line[1] = 'totaal score ranking'
+		line[8] = participant.teams.select{|x| x.stage=='poule_score' or x.stage=='poule_bonus'}.map(&:score).compact.sum
 
-
-
-		arr << ['totaal score ranking', nil,nil ,participant.teams.select{|x| x.stage=='poule_score' or x.stage=='poule_bonus'}.map(&:score).compact.sum]
-		
+		# arr << ['totaal score ranking', nil,nil ,participant.teams.select{|x| x.stage=='poule_score' or x.stage=='poule_bonus'}.map(&:score).compact.sum]
+		arr << line
 	end
 
 	def goals_array(participant)
