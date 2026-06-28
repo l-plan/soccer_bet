@@ -56,6 +56,10 @@ class TeamsController < ApplicationController
     end
   end
 
+  def poule_rankings
+    @teams = Team.all.sort_by{|x| [x.poule, x.poule_rank]}.group_by{|x| x.poule}
+  end
+
   def edit_many_sixteenfinalists
     @teams = Team.all
   end

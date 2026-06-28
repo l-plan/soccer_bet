@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     
     collection do
       get :edit_many_redcards
+      get :poule_rankings
       post :update_many_redcards
 
       get :edit_many_sixteenfinalists

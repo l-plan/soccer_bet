@@ -66,7 +66,7 @@ class Ranking
 		end
 
 
-		standings = standings.each_with_index.map{|x,i| [i+1,x[:team_id], Team.find(x[:team_id]).name, x[:points],  x[:gd], x[:gf], x[:fair], x[:fifa]]}
+		standings = standings.each_with_index.map{|x,i| [i+1,x[:team_id], Team.find(x[:team_id]).name, x[:points],  x[:gd], x[:gf], x[:fair], x[:fifa], x[:played]]}
 
 
 

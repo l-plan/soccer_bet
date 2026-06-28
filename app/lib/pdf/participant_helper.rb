@@ -36,10 +36,27 @@ module Pdf::ParticipantHelper
 		pdf.start_new_page
 		print_poule_ranking(participant)
 
-		# h 50
+		h 20
+		print_final_scores(participant)
 
 
 	end
+
+	def print_final_scores(participant)
+		arr = final_scores_array(participant)
+		# arr = goals_array(participant)
+
+		pdf.table( arr, :column_widths => [100, 25, 50, 100, 25, 50, 100,25], :cell_style=>cellstyle) do
+			column(1).style :align => :right
+			column(4).style :align => :right
+			column(7).style :align => :right
+			column(0).style :font_style=> :bold	
+			column(3).style :font_style=> :bold	
+			column(6).style :font_style=> :bold	
+		end
+	end
+
+
 
 	def print_goals(participant)
 		arr = goals_array(participant)

@@ -73,4 +73,50 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+    # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.perform_caching = false
+
+
+  #letter opener
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
+
+  
+  #localhost settings
+  # config.action_mailer.default_url_options = { host: 'localhost', port: 3003 }
+
+  
+
+  #tell settings
+  # config.action_mailer.delivery_method = :smtp
+
+  
+  # config.action_mailer.smtp_settings = {
+  #   address:              'smtp.gmail.com',
+  #   port:                 587,
+  #   domain:               Rails.application.credentials.google[:domain_name],
+  #   user_name:            Rails.application.credentials.google[:gmail_user],
+  #   password:             Rails.application.credentials.google[:gmail_password],
+  #   authentication:       'plain',
+  #   enable_starttls_auto: true
+  # }
+
+  #google settings
+  
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3003 }
+  config.action_mailer.smtp_settings = {
+   address:              'smtp.gmail.com',
+   port:                 587,
+   domain:               Rails.application.credentials.google[:domain_name],
+   user_name:            Rails.application.credentials.google[:gmail_user],
+   password:             Rails.application.credentials.google[:gmail_password],
+   authentication:       'plain',
+   enable_starttls_auto: true,
+   open_timeout:         5,
+   read_timeout:         5 }
+
 end

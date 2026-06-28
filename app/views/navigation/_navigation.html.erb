@@ -27,7 +27,8 @@
             <%="team rankings"%>
           </a>
           <ul class="dropdown-menu">
-
+            <li><%=link_to 'poule rankings',poule_rankings_teams_path, class: "nav-link active", 'aria-current': "page"%></li>
+            <li><hr class="dropdown-divider"></li>
             <li><%=link_to 'fifa ranking',fifa_rankings_path, class: "nav-link active", 'aria-current': "page"%></li>
             <li><%=link_to 'fair play ranking',fifa_fair_play_rankings_path, class: "nav-link active", 'aria-current': "page"%></li>
             <li><hr class="dropdown-divider"></li>

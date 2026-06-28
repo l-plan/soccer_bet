@@ -43,6 +43,21 @@ module ParticipantsHelper
 
 	end
 
+	def final_scores_array(participant)
+		arr = []
+		arr << ["poulefase", participant.games.map(&:score).compact.sum,nil, "16e finale", participant.teams.sixteenfinal.map(&:score).compact.sum, nil, "winnaar", participant.teams.winner.map(&:score).compact.sum ]
+		arr << ["eindstand poules", participant.teams.pouleranking.map(&:score).compact.sum, nil,"8e finale", participant.teams.eightfinal.map(&:score).compact.sum, nil, "rode kaart", participant.teams.redcard.map(&:score).compact.sum ]
+
+
+		arr << [nil, nil, nil,"kwart finale", participant.teams.quarterfinal.map(&:score).compact.sum, nil, "topplayer",participant.players.topplayer.map(&:score).compact.sum]
+		arr << [nil, nil,nil,"halve finale", participant.teams.semifinal.map(&:score).compact.sum, nil, "topscorer",participant.players.topscorer.map(&:score).compact.sum]
+		arr << [nil, nil,nil,"finale", participant.teams.finale.map(&:score).compact.sum]
+		arr << ["totaal", nil, nil, nil, nil, nil, nil, participant.score_total]
+
+
+
+	end
+
 
 	def games_array(participant)
 		arr = []

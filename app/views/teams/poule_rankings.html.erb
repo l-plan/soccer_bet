@@ -1,0 +1,154 @@
+<%@teams.each_slice(2) do |a, b| %>
+
+
+	<div class='row'>
+		<div class='col-6'>
+			<div class='row'>
+				<div class='col-12'>
+					<%="stand poule #{a[0]}"%>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-1'>
+					nr
+				</div>
+
+				<div class='col-3'>
+					&nbsp;
+				</div>
+
+				<div class='col-1 text-center'>
+					pl
+				</div>
+
+
+				<div class='col-1 text-center'>
+					pnt
+				</div>
+
+				<div class='col-1 text-center'>
+					v
+				</div>
+
+
+				<div class='col-1 text-center'>
+					t
+				</div>
+
+				<div class='col-1 text-center'>
+					d
+				</div>
+			</div>	
+			<%Ranking.new(a[0]).fifa_poule_ranking.each do |team| %>
+	
+				<div class='row'>
+					<div class='col-1'>
+						<%=team[0]%>
+					</div>
+
+					<div class='col-3'>
+						<%=team[2]%>
+					</div>
+
+					<div class='col-1 text-center'>
+						<%=team[8]%>
+					</div>
+
+
+					<div class='col-1 text-center'>
+						<%=team[3]%>
+					</div>
+
+					<div class='col-1 text-center'>
+						<%=team[5]%>
+					</div>
+
+
+					<div class='col-1 text-center'>
+						<%=team[5]-team[4]%>
+					</div>
+
+					<div class='col-1 text-center'>
+						<%=team[4]%>
+					</div>
+
+				</div>			
+			<%end%>
+		</div>
+		<div class='col-6'>
+			<div class='row'>
+				<div class='col-12'>
+					<%="stand poule #{b[0]}"%>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-1'>
+					nr
+				</div>
+
+				<div class='col-3'>
+					&nbsp;
+				</div>
+
+				<div class='col-1 text-center'>
+					pl
+				</div>
+
+
+				<div class='col-1 text-center'>
+					pnt
+				</div>
+
+				<div class='col-1 text-center'>
+					v
+				</div>
+
+
+				<div class='col-1 text-center'>
+					t
+				</div>
+
+				<div class='col-1 text-center'>
+					d
+				</div>
+			</div>	
+			<%Ranking.new(b[0]).fifa_poule_ranking.each do |team| %>
+	
+				<div class='row'>
+					<div class='col-1'>
+						<%=team[0]%>
+					</div>
+
+					<div class='col-3'>
+						<%=team[2]%>
+					</div>
+
+					<div class='col-1 text-center'>
+						<%=team[8]%>
+					</div>
+
+
+					<div class='col-1 text-center'>
+						<%=team[3]%>
+					</div>
+
+					<div class='col-1 text-center'>
+						<%=team[5]%>
+					</div>
+
+
+					<div class='col-1 text-center'>
+						<%=team[5]-team[4]%>
+					</div>
+
+					<div class='col-1 text-center'>
+						<%=team[4]%>
+					</div>
+
+				</div>			
+			<%end%>
+		</div>
+
+	</div>
+	<div class='row'> <div class='col-12'> &nbsp;</div></div>
+<%end%>
