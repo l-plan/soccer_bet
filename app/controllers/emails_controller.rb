@@ -8,8 +8,8 @@ class EmailsController < ApplicationController
 	def latest
 		Pdf::Scores.new(Participant.ranked).write
 
-		# Participant.all.select{|x| !x.email.nil?}.each do |participant|
-		Participant.all.select{|x| x.email == 'rolf@l-plan.nl'}.each do |participant|
+		Participant.all.select{|x| !x.email.nil?}.each do |participant|
+		# Participant.all.select{|x| x.email == 'rolf@l-plan.nl'}.each do |participant|
 			ParticipantMailer.latest_standings(participant: participant).deliver
 		end
 
