@@ -7,6 +7,11 @@ Rails.application.routes.draw do
 
 
   resources :home, only: :index 
+  resources :emails, only: :index do
+    collection do
+      post :latest
+    end
+  end
   
   resources :calculations do
       collection do

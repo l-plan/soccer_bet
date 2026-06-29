@@ -27,7 +27,10 @@ class Pdf::Participant
 	end
 
 	def write
-		pdf.render_file( Rails.root.join('storage',"#{@participant.name.gsub(' ', '_')}_#{@participant.id}.pdf") )
+
+		str = '00' << participant.id.to_s
+		str.reverse[0,3].reverse
+		pdf.render_file( Rails.root.join('storage',"#{@participant.name.gsub(' ', '_')}_#{str}.pdf") )
 
 	end
 

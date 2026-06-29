@@ -12,7 +12,8 @@ class ScoresController < ApplicationController
 	end
 
 	def download
-	    send_data pdf.pdf.render, :filename=>"scores.pdf",:disposition => 'attachment'
+		str = Date.today.strftime
+	    send_data pdf.pdf.render, :filename=>"scores_#{str}.pdf",:disposition => 'attachment'
 	end
 
 	def write_all_final_scores

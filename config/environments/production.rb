@@ -87,6 +87,18 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.default_url_options = { :host => "www.l-plan.nl" }
+  config.action_mailer.smtp_settings = {
+   address:              'smtp.gmail.com',
+   port:                 587,
+   domain:               Rails.application.credentials.google[:domain_name],
+   user_name:            Rails.application.credentials.google[:gmail_user],
+   password:             Rails.application.credentials.google[:app_password],
+   authentication:       'plain',
+   enable_starttls_auto: true,
+   open_timeout:         5,
+   read_timeout:         5 }
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com

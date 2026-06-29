@@ -78,6 +78,14 @@ class Pdf::Scores
 			# row(0).style :rotate => 90, :height=> 100, :valign => :bottom
 		end
 
+	def write
+
+		str = Date.today.strftime.gsub(/-/, '')
+
+		pdf.render_file( Rails.root.join('storage',"standings_#{str}.pdf") )
+
+	end
+
 
 	end
 
