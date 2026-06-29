@@ -3,6 +3,7 @@ class Participant < ApplicationRecord
 	has_many :teams, class_name: "Bet::Team", inverse_of: :participant
 	has_many :players, class_name: "Bet::Player", inverse_of: :participant
 	has_one :goal, class_name: "Bet::Goal", inverse_of: :participant
+	has_many :messages, class_name: "Message", inverse_of: :participant
 
 
 

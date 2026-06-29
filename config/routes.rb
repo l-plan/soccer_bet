@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :emails, only: :index do
     collection do
       post :latest
+      post :input
     end
   end
   

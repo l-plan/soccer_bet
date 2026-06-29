@@ -1,11 +1,24 @@
 
 <div class='row'>
-	<div class='col-6'>
-		<%= button_to "mail tody's standings", latest_emails_path, class: "btn btn-warning btn-xl"%>
-	</div>
+	
+	
+<%= bootstrap_form_tag url: latest_emails_path do |f| %>
+  <%= f.text_field :xtra, placeholder: 'type extra text in your subject..', label: "send latest standings to all participants"%>
+  <%= f.submit('latest_standings',  class: "btn btn-primary btn-sm" )%>
+<% end %>
+
 </div>
 
 
 
 
 <div class='row'>&nbsp;</div>
+
+
+	
+<%= bootstrap_form_tag url: input_emails_path do |f| %>
+  <%= f.text_field :xtra, placeholder: 'type extra text in your subject..', label: "send participants their input form"%>
+  <%= f.submit('input',  class: "btn btn-primary btn-sm" )%>
+<% end %>
+
+</div>

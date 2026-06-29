@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_06_26_231938) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_29_210438) do
   create_table "bet_games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "game_id"
@@ -94,6 +94,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_26_231938) do
     t.index ["home_id"], name: "index_games_on_home_id"
     t.index ["nr"], name: "index_games_on_nr"
     t.index ["stage"], name: "index_games_on_stage"
+  end
+
+  create_table "messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "participant_id"
+    t.integer "subject"
+    t.datetime "sent_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_messages_on_participant_id"
   end
 
   create_table "participants", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
